@@ -1,0 +1,42 @@
+{
+  "name": "newspaper-cms-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "seed": "node src/seed/seed.js",
+    "seed:news": "node src/seed/add-five-news.js",
+    "seed:blogs": "node src/seed/add-demo-blogs.js",
+    "seed:faqs": "node src/seed/add-demo-faqs.js",
+    "seed:media-achievements": "node src/seed/add-demo-media-achievements.js",
+    "seed:social-posts": "node src/seed/add-demo-social-posts.js",
+    "seed:homepage": "node src/seed/ensure-homepage-builder.js",
+    "migrate:category-indexes": "node src/seed/migrate-category-indexes.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.2",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.2",
+    "nanoid": "^5.0.7",
+    "sharp": "^0.33.4",
+    "slugify": "^1.6.6",
+    "xss": "^1.0.15",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

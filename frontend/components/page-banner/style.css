@@ -1,0 +1,120 @@
+.page-banner {
+  position: relative;
+  width: 100%;
+  min-height: 360px;
+  overflow: hidden;
+  background-color: #0f172a;
+  background-image:
+    linear-gradient(to right, #020617, rgba(15, 23, 42, 0.8), transparent),
+    url("/hero-bg.png");
+  background-size: cover;
+  background-position: center center;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.page-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.45);
+  pointer-events: none;
+}
+
+.page-banner__container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.page-banner__text {
+  max-width: 48rem;
+  margin-top: 2rem;
+}
+
+.page-banner__title {
+  margin: 0;
+  color: #ffffff;
+  font-size: 2.25rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
+.page-banner__subtitle-container {
+  max-width: 36rem;
+}
+
+.page-banner__subtitle {
+  margin: 1rem 0 0;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.625;
+  overflow-wrap: break-word;
+}
+
+.page-banner__ad-wrapper {
+  width: 100%;
+}
+
+.page-banner__text + .page-banner__ad-wrapper {
+  margin-top: 2rem;
+}
+
+.page-banner__ad-container {
+  width: 100%;
+  max-width: 73.125rem;
+}
+
+.page-banner__ad-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 10rem;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .page-banner {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .page-banner__container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .page-banner__title {
+    font-size: 3.75rem;
+  }
+
+  .page-banner__subtitle {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-banner__container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .page-banner__ad-img {
+    max-height: 12rem;
+  }
+}

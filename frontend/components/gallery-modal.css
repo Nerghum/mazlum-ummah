@@ -1,0 +1,131 @@
+body.lightbox-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000000001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.lightbox-title {
+  position: absolute;
+  top: 16px;
+  left: 24px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.lightbox-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  z-index: 10;
+  transition: background-color 0.2s;
+}
+
+.lightbox-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  z-index: 10;
+  transition: background-color 0.2s;
+}
+
+.lightbox-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-nav-btn--prev {
+  left: 16px;
+}
+
+.lightbox-nav-btn--next {
+  right: 16px;
+}
+
+.lightbox-image-wrap {
+  width: 95vw;
+  height: 95vh;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+/* Video Modal */
+.video-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000000001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.video-modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  z-index: 10;
+  transition: background-color 0.2s;
+}
+
+.video-modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.video-modal-iframe-wrap {
+  line-height: 0;
+}
+
+.video-modal-iframe {
+  width: 90vw;
+  max-width: 900px;
+  height: 500px;
+  border: none;
+  border-radius: 8px;
+}

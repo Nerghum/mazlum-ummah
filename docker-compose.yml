@@ -1,0 +1,53 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: newspaper_cms
+    volumes:
+      - mongo_data:/data/db
+
+  server:
+    build: ./server
+    restart: unless-stopped
+    env_file:
+      - ./server/.env.example
+    environment:
+      MONGO_URI: mongodb://root:rootpassword@mongo:27017/newspaper_cms?authSource=admin
+      CLIENT_URL: http://localhost:5173
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+    volumes:
+      - ./server/uploads:/app/uploads
+
+  admin:
+    build: ./admin
+    restart: unless-stopped
+    env_file:
+      - ./admin/.env.example
+    environment:
+      VITE_API_URL: http://localhost:4000/api/v1
+      VITE_FRONTEND_URL: http://localhost:3000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:4000/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+
+volumes:
+  mongo_data:

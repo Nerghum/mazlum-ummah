@@ -1,0 +1,42 @@
+import { Router } from 'express';
+import analyticsRoutes from './analytics.routes.js';
+import advertisementRoutes from './advertisement.routes.js';
+import authRoutes from './auth.routes.js';
+import blogRoutes from './blog.routes.js';
+import categoryRoutes from './category.routes.js';
+import commentRoutes from './comment.routes.js';
+import countryRoutes from './country.routes.js';
+import faqRoutes from './faq.routes.js';
+import homepageRoutes from './homepage.routes.js';
+import mediaAchievementRoutes from './mediaAchievement.routes.js';
+import mediaRoutes from './media.routes.js';
+import menuRoutes from './menu.routes.js';
+import noticeRoutes from './notice.routes.js';
+import newsRoutes from './news.routes.js';
+import publicRoutes from './public.routes.js';
+import settingsRoutes from './settings.routes.js';
+import socialPostRoutes from './socialPost.routes.js';
+import userRoutes from './user.routes.js';
+
+const router = Router();
+
+router.use('/auth', authRoutes);
+router.use('/advertisements', advertisementRoutes);
+router.use('/news', newsRoutes);
+router.use('/blogs', blogRoutes);
+router.use('/categories', categoryRoutes);
+router.use('/countries', countryRoutes);
+router.use('/faqs', faqRoutes);
+router.use('/media', mediaRoutes);
+router.use('/menus', menuRoutes);
+router.use('/notices', noticeRoutes);
+router.use('/homepage-sections', homepageRoutes);
+router.use('/media-achievements', mediaAchievementRoutes);
+router.use('/social-posts', socialPostRoutes);
+router.use('/analytics', analyticsRoutes);
+router.use('/users', userRoutes);
+router.use('/settings', settingsRoutes);
+router.use('/comments', commentRoutes);
+router.use('/public', publicRoutes);
+
+export default router;

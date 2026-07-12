@@ -1,0 +1,12 @@
+import mongoose from 'mongoose';
+
+const settingSchema = new mongoose.Schema(
+  {
+    key: { type: String, required: true, unique: true },
+    value: mongoose.Schema.Types.Mixed,
+    group: { type: String, default: 'general', index: true }
+  },
+  { timestamps: true }
+);
+
+export default mongoose.model('Setting', settingSchema);
