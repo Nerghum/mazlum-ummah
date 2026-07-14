@@ -27,7 +27,7 @@ export function BlogListPage() {
   const columns = [
     { key: 'title', label: 'Title', render: (row) => <div><div className="font-semibold">{localizedValue(row.title, 'en') || localizedValue(row.title, 'bn')}</div><div className="text-xs text-slate-500">{localizedValue(row.title, 'bn')}</div><div className="text-xs text-slate-400">{row.slug}</div></div> },
     { key: 'status', label: 'Status', render: (row) => <span className="rounded-full bg-slate-100 px-2 py-1 text-xs dark:bg-slate-800">{row.status}</span> },
-    { key: 'mainCategory', label: 'Category', render: (row) => row.mainCategory?.name || row.mainCategory?.nameBn || '-' },
+    { key: 'categories', label: 'Categories', render: (row) => row.categories?.map((c) => c.name || c.nameBn).filter(Boolean).join(', ') || '-' },
     { key: 'views', label: 'Views' },
     { key: 'publishDate', label: 'Publish date', render: (row) => formatDate(row.publishDate) },
     { key: 'actions', label: 'Actions', render: (row) => <Link className="text-brand-600" to={`/blogs/${row._id}/edit`}><Edit size={18} /></Link> }

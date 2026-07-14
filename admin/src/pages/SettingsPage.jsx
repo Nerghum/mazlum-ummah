@@ -10,14 +10,16 @@ import { PageHeader } from '../components/PageHeader.jsx';
 import { api } from '../services/api.js';
 import { showToast } from '../store/uiSlice.js';
 
-function flatten(obj, prefix = '', result = {}) {
+function unflatten(obj) {
+  const result = {};
   for (const [key, value] of Object.entries(obj)) {
-    const path = prefix ? `${prefix}.${key}` : key;
-    if (value && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
-      flatten(value, path, result);
-    } else {
-      result[path] = value;
+    const parts = key.split('.');
+    let current = result;
+    for (let i = 0; i < parts.length - 1; i++) {
+      if (!current[parts[i]]) current[parts[i]] = {};
+      current = current[parts[i]];
     }
+    current[parts[parts.length - 1]] = value;
   }
   return result;
 }
@@ -28,16 +30,18 @@ export function SettingsPage() {
   const [initialMedia, setInitialMedia] = useState({ logo: null, favicon: null });
   const { register, handleSubmit, reset, control } = useForm({
     defaultValues: {
-      'site.title': 'Mazlum Ummah',
-      'site.tagline': 'For the Muslim Ummah',
-      'site.description': '',
-      'site.logo': null,
-      'site.favicon': null,
-      'site.facebookUrl': 'https://www.facebook.com/mazlumummah',
-      'site.youtubeUrl': 'https://www.youtube.com/@MazlumUmmah',
-      'site.linkedinUrl': 'https://www.linkedin.com/company/mazlum-ummah',
-      'site.instagramUrl': '',
-      'site.whatsappUrl': ''
+      site: {
+        title: 'Mazlum Ummah',
+        tagline: 'For the Muslim Ummah',
+        description: '',
+        logo: null,
+        favicon: null,
+        facebookUrl: 'https://www.facebook.com/mazlumummah',
+        youtubeUrl: 'https://www.youtube.com/@MazlumUmmah',
+        linkedinUrl: 'https://www.linkedin.com/company/mazlum-ummah',
+        instagramUrl: '',
+        whatsappUrl: ''
+      }
     }
   });
 
@@ -51,14 +55,25 @@ export function SettingsPage() {
         if (item.key === 'site.favicon') media.favicon = item.media || null;
       });
       setInitialMedia(media);
-      reset(values);
+      reset(unflatten(values));
     });
   }, [reset]);
 
   async function onSubmit(values) {
     setSaving(true);
     try {
-      await api.put('/settings', flatten(values));
+      await api.put('/settings', values);
+      // Re-fetch to get the saved values and updated media references
+      const response = await api.get('/settings');
+      const freshValues = {};
+      const media = { logo: null, favicon: null };
+      response.data.data.forEach((item) => {
+        freshValues[item.key] = item.value;
+        if (item.key === 'site.logo') media.logo = item.media || null;
+        if (item.key === 'site.favicon') media.favicon = item.media || null;
+      });
+      setInitialMedia(media);
+      reset(unflatten(freshValues));
       dispatch(showToast('Settings saved'));
     } catch {
       dispatch(showToast('Failed to save settings'));
