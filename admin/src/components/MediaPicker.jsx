@@ -104,7 +104,7 @@ export function MediaPicker({ open, multiple = false, value, initialItems = [], 
         <div className="flex flex-wrap items-center gap-3 border-b border-slate-200 p-4 dark:border-slate-800">
           <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white">
             <Upload size={16} /> {uploading ? 'Uploading...' : multiple ? 'Upload images' : 'Upload image'}
-            <input type="file" accept="image/*" multiple={multiple} className="hidden" onChange={(event) => upload(event.target.files)} />
+            <input type="file" accept="image/*,.ico,.icon" multiple={multiple} className="hidden" onChange={(event) => upload(event.target.files)} />
           </label>
           <div className="relative min-w-64 flex-1">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />

@@ -204,8 +204,8 @@ export type CmsShortlinkTarget = {
   url: string;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
-const ASSET_ORIGIN = API_URL.replace(/\/api\/v1\/?$/, "");
+const API_URL = (typeof window === "undefined" ? process.env.INTERNAL_API_URL : null) || process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
+const ASSET_ORIGIN = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1").replace(/\/api\/v1\/?$/, "");
 
 export function text(value: LocalizedText | string | undefined, locale: LocaleCode) {
   if (!value) return "";

@@ -21,9 +21,13 @@ export const uploadMedia = asyncHandler(async (req, res) => {
   let height;
   const isImage = file.mimetype.startsWith('image/');
   if (isImage) {
-    const meta = await sharp(file.path).metadata();
-    width = meta.width;
-    height = meta.height;
+    try {
+      const meta = await sharp(file.path).metadata();
+      width = meta.width;
+      height = meta.height;
+    } catch (err) {
+      console.warn('Sharp could not read image metadata:', err.message);
+    }
   }
   const media = await Media.create({
     filename: file.filename,
@@ -72,9 +76,13 @@ export const replaceMedia = asyncHandler(async (req, res) => {
 
   let width, height;
   if (file.mimetype.startsWith('image/')) {
-    const meta = await sharp(targetPath).metadata();
-    width = meta.width;
-    height = meta.height;
+    try {
+      const meta = await sharp(targetPath).metadata();
+      width = meta.width;
+      height = meta.height;
+    } catch (err) {
+      console.warn('Sharp could not read image metadata:', err.message);
+    }
   }
 
   media.originalName = file.originalname;

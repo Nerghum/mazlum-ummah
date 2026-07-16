@@ -56,6 +56,7 @@ Stop all services:
 ```bash
 cd "/Users/nerghum/Desktop/personal/Mazlum ummah 2"
 docker compose down
+
 ```
 
 Restart after code changes:
