@@ -11,6 +11,7 @@ import { FormField } from '../components/FormField.jsx';
 import { MediaImageField, mediaId } from '../components/MediaPicker.jsx';
 import { PageHeader } from '../components/PageHeader.jsx';
 import { api } from '../services/api.js';
+import { useSaveState } from '../hooks/useSaveState.js';
 import { showToast } from '../store/uiSlice.js';
 import { youtubeEmbedUrl } from '../utils/video.js';
 
@@ -78,6 +79,7 @@ export function SocialPostEditorPage() {
 
   const [initialMedia, setInitialMedia] = useState({ authorAvatar: null, images: [], videoThumbnail: null });
   const { register, handleSubmit, control, watch, reset, setValue, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema), defaultValues: defaults });
+  const [saved, withSaveState] = useSaveState();
 
   useEffect(() => {
     if (id) {
@@ -127,7 +129,7 @@ export function SocialPostEditorPage() {
   return (
     <>
       <PageHeader title={id ? 'Edit Social Post' : 'Create Social Post'} description="Add one-language image or video posts for the social feed page." actions={id ? <Link to="/social-posts/create"><Button><Plus size={16} /> Add New</Button></Link> : null} />
-      <form onSubmit={handleSubmit(onSubmit, onError)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
+      <form onSubmit={handleSubmit(withSaveState(onSubmit), onError)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
         <Card className="p-5">
           <div className="grid gap-4">
             <FormField label="Post content" error={errors.content?.message}>
@@ -177,7 +179,7 @@ export function SocialPostEditorPage() {
                 <input type="datetime-local" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('publishDate')} />
               </FormField>
 
-              <Button className="w-full" loading={isSubmitting}><Save size={16} /> Save Social Post</Button>
+              <Button className="w-full" loading={isSubmitting} saved={saved}><Save size={16} /> Save Social Post</Button>
             </div>
           </Card>
 

@@ -13,6 +13,7 @@ import { PageHeader } from '../components/PageHeader.jsx';
 import { PrintNewsPreview } from '../components/PrintNewsPreview.jsx';
 import { RichTextEditor } from '../components/RichTextEditor.jsx';
 import { api } from '../services/api.js';
+import { useSaveState } from '../hooks/useSaveState.js';
 import { useApiResource } from '../hooks/useApiResource.js';
 import { showToast } from '../store/uiSlice.js';
 import { copyText } from '../utils/clipboard.js';
@@ -100,6 +101,7 @@ export function NewsEditorPage() {
   const [shortlink, setShortlink] = useState('');
   const { data: categories } = useApiResource('/categories', { type: 'news', limit: 1000 });
   const { register, handleSubmit, control, watch, reset, setValue, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema), defaultValues: defaults });
+  const [saved, withSaveState] = useSaveState();
 
   useEffect(() => {
     if (id) {
@@ -171,7 +173,7 @@ export function NewsEditorPage() {
   return (
     <>
       <PageHeader title={id ? 'Edit News' : 'Create News'} description="Manage story content, publishing workflow, SEO, protection, and print output." actions={id ? <Link to="/news/create"><Button><Plus size={16} /> Add New News</Button></Link> : null} />
-      <form onSubmit={handleSubmit(onSubmit, onError)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
+      <form onSubmit={handleSubmit(withSaveState(onSubmit), onError)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
         <Card className="p-5">
           <div className="mb-5 flex items-center justify-between gap-3 border-b border-slate-200 pb-4 dark:border-slate-800">
             <div className="flex items-center gap-2 font-semibold"><Languages size={18} /> Article language content</div>
@@ -315,7 +317,7 @@ export function NewsEditorPage() {
                   )}
                 </div>
               </FormField>
-              <Button className="w-full" loading={isSubmitting}><Save size={16} /> Save News</Button>
+              <Button className="w-full" loading={isSubmitting} saved={saved}><Save size={16} /> Save News</Button>
             </div>
           </Card>
           <Card className="p-5">

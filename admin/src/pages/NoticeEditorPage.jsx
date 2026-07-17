@@ -10,6 +10,7 @@ import { Card } from '../components/Card.jsx';
 import { FormField } from '../components/FormField.jsx';
 import { PageHeader } from '../components/PageHeader.jsx';
 import { api } from '../services/api.js';
+import { useSaveState } from '../hooks/useSaveState.js';
 import { showToast } from '../store/uiSlice.js';
 import { emptyLocalized } from '../utils/localized.js';
 import { noticePreviewUrl } from '../utils/preview.js';
@@ -73,6 +74,7 @@ export function NoticeEditorPage() {
   const [activeLang, setActiveLang] = useState('bn');
   const [previewUrl, setPreviewUrl] = useState('');
   const { register, handleSubmit, watch, reset, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema), defaultValues: defaults });
+  const [saved, withSaveState] = useSaveState();
 
   useEffect(() => {
     if (id) {
@@ -107,7 +109,7 @@ export function NoticeEditorPage() {
   return (
     <>
       <PageHeader title={id ? 'Edit Notice' : 'Create Notice'} description="Publish bilingual notices to the public notice page." actions={id ? <Link to="/notices/create"><Button><Plus size={16} /> Add New</Button></Link> : null} />
-      <form onSubmit={handleSubmit(onSubmit, onError)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
+      <form onSubmit={handleSubmit(withSaveState(onSubmit), onError)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
         <Card className="p-5">
           <div className="mb-5 flex items-center justify-between gap-3 border-b border-slate-200 pb-4 dark:border-slate-800">
             <div className="flex items-center gap-2 font-semibold"><Languages size={18} /> Notice language content</div>
@@ -150,7 +152,7 @@ export function NoticeEditorPage() {
               <FormField label="Expires at"><input type="datetime-local" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('expiresAt')} /></FormField>
               <FormField label="Priority order"><input type="number" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('priorityOrder')} /></FormField>
 
-              <Button className="w-full" loading={isSubmitting}><Save size={16} /> Save Notice</Button>
+              <Button className="w-full" loading={isSubmitting} saved={saved}><Save size={16} /> Save Notice</Button>
             </div>
           </Card>
         </div>

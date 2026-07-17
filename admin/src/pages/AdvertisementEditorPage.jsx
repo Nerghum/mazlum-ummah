@@ -11,6 +11,7 @@ import { FormField } from '../components/FormField.jsx';
 import { MediaImageField, mediaId } from '../components/MediaPicker.jsx';
 import { PageHeader } from '../components/PageHeader.jsx';
 import { api } from '../services/api.js';
+import { useSaveState } from '../hooks/useSaveState.js';
 import { showToast } from '../store/uiSlice.js';
 import { adPositionSize, adPositions, categoryAdPositions } from '../utils/adPositions.js';
 import { useApiResource } from '../hooks/useApiResource.js';
@@ -73,6 +74,7 @@ export function AdvertisementEditorPage() {
   const { data: newsCategories } = useApiResource('/categories', { type: 'news', limit: 1000 });
   const { data: blogCategories } = useApiResource('/categories', { type: 'blog', limit: 1000 });
   const { register, handleSubmit, control, watch, reset, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema), defaultValues: defaults });
+  const [saved, withSaveState] = useSaveState();
 
   useEffect(() => {
     if (!id) return;
@@ -114,7 +116,7 @@ export function AdvertisementEditorPage() {
   return (
     <>
       <PageHeader title={id ? 'Edit Advertisement' : 'Create Advertisement'} description="Upload or select an image/GIF, add an optional link, and choose frontend positions." />
-      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
+      <form onSubmit={handleSubmit(withSaveState(onSubmit))} className="grid gap-5 xl:grid-cols-[1fr_360px]">
         <Card className="p-5">
           <div className="grid gap-4">
             <FormField label="Ad title" error={errors.title?.message}>
@@ -161,7 +163,7 @@ export function AdvertisementEditorPage() {
               <label className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 text-sm dark:bg-slate-800">
                 <span>Active</span><input type="checkbox" {...register('isActive')} />
               </label>
-              <Button className="w-full" loading={isSubmitting}><Save size={16} /> Save Ad</Button>
+              <Button className="w-full" loading={isSubmitting} saved={saved}><Save size={16} /> Save Ad</Button>
             </div>
           </Card>
         </div>

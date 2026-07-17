@@ -13,6 +13,7 @@ import { PageHeader } from '../components/PageHeader.jsx';
 import { PrintNewsPreview } from '../components/PrintNewsPreview.jsx';
 import { RichTextEditor } from '../components/RichTextEditor.jsx';
 import { api } from '../services/api.js';
+import { useSaveState } from '../hooks/useSaveState.js';
 import { useApiResource } from '../hooks/useApiResource.js';
 import { showToast } from '../store/uiSlice.js';
 import { copyText } from '../utils/clipboard.js';
@@ -88,6 +89,7 @@ export function BlogEditorPage() {
   const [shortlink, setShortlink] = useState('');
   const { data: categories } = useApiResource('/categories', { type: 'blog', limit: 1000 });
   const { register, handleSubmit, control, watch, reset, setValue, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema), defaultValues: defaults });
+  const [saved, withSaveState] = useSaveState();
 
   useEffect(() => {
     if (id) {
@@ -156,7 +158,7 @@ export function BlogEditorPage() {
   return (
     <>
       <PageHeader title={id ? 'Edit Blog' : 'Create Blog'} description="Write bilingual Bangla/English blog posts with a rich text editor." actions={id ? <Link to="/blogs/create"><Button><Plus size={16} /> Add New Blog</Button></Link> : null} />
-      <form onSubmit={handleSubmit(onSubmit, onError)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
+      <form onSubmit={handleSubmit(withSaveState(onSubmit), onError)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
         <Card className="p-5">
           <div className="mb-5 flex items-center justify-between gap-3 border-b border-slate-200 pb-4 dark:border-slate-800">
             <div className="flex items-center gap-2 font-semibold"><Languages size={18} /> Blog language content</div>
@@ -293,7 +295,7 @@ export function BlogEditorPage() {
                   <span className="capitalize">{name.replace(/([A-Z])/g, ' $1')}</span><input type="checkbox" {...register(name)} />
                 </label>
               ))}
-              <Button className="w-full" loading={isSubmitting}><Save size={16} /> Save Blog</Button>
+              <Button className="w-full" loading={isSubmitting} saved={saved}><Save size={16} /> Save Blog</Button>
             </div>
           </Card>
           <Card className="p-5">

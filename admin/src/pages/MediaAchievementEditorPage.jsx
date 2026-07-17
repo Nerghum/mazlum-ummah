@@ -13,6 +13,7 @@ import { PageHeader } from '../components/PageHeader.jsx';
 import { PrintNewsPreview } from '../components/PrintNewsPreview.jsx';
 import { RichTextEditor } from '../components/RichTextEditor.jsx';
 import { api } from '../services/api.js';
+import { useSaveState } from '../hooks/useSaveState.js';
 import { showToast } from '../store/uiSlice.js';
 import { emptyLocalized } from '../utils/localized.js';
 import { mediaAchievementPreviewUrl } from '../utils/preview.js';
@@ -98,6 +99,7 @@ export function MediaAchievementEditorPage() {
   const [initialMedia, setInitialMedia] = useState({ thumbnailImage: null, imageGallery: [] });
   const [previewUrl, setPreviewUrl] = useState('');
   const { register, handleSubmit, control, watch, reset, setValue, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema), defaultValues: defaults });
+  const [saved, withSaveState] = useSaveState();
 
   useEffect(() => {
     if (id) {
@@ -142,7 +144,7 @@ export function MediaAchievementEditorPage() {
   return (
     <>
       <PageHeader title={id ? 'Edit Media Achievement' : 'Create Media Achievement'} description="Write bilingual press highlights, media mentions, awards, and recognition posts." actions={id ? <Link to="/media-achievements/create"><Button><Plus size={16} /> Add New</Button></Link> : null} />
-      <form onSubmit={handleSubmit(onSubmit, onError)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
+      <form onSubmit={handleSubmit(withSaveState(onSubmit), onError)} className="grid gap-5 xl:grid-cols-[1fr_360px]">
         <Card className="p-5">
           <div className="mb-5 flex items-center justify-between gap-3 border-b border-slate-200 pb-4 dark:border-slate-800">
             <div className="flex items-center gap-2 font-semibold"><Languages size={18} /> Achievement language content</div>
@@ -277,7 +279,7 @@ export function MediaAchievementEditorPage() {
                   <span className="capitalize">{name.replace(/([A-Z])/g, ' $1')}</span><input type="checkbox" {...register(name)} />
                 </label>
               ))}
-              <Button className="w-full" loading={isSubmitting}><Save size={16} /> Save Achievement</Button>
+              <Button className="w-full" loading={isSubmitting} saved={saved}><Save size={16} /> Save Achievement</Button>
             </div>
           </Card>
           <Card className="p-5">
