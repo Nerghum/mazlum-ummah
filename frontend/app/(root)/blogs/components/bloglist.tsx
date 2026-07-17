@@ -45,7 +45,11 @@ const BlogList = ({ categorySlug }: { categorySlug?: string }) => {
   }, [categorySlug, locale]);
 
   const allCards = useMemo(
-    () => dynamicCards.map((card, index) => ({ ...card, type: (index % 2 === 0 ? "photo" : "accent") as "photo" | "accent", description: card.excerpt })),
+    () => dynamicCards.map((card) => ({ 
+      ...card, 
+      type: (card.src !== "/logo.png" ? "photo" : "accent") as "photo" | "accent", 
+      description: card.excerpt 
+    })),
     [dynamicCards]
   );
 
@@ -161,17 +165,7 @@ const BlogList = ({ categorySlug }: { categorySlug?: string }) => {
         )}
 
         <section className="gallery-grid">
-          {(() => {
-            const photos = pageCards.filter((c) => c.type === "photo");
-            const accents = pageCards.filter((c) => c.type === "accent");
-            const rows: (typeof pageCards)[] = [];
-            const maxLen = Math.max(photos.length, accents.length);
-            for (let i = 0; i < maxLen; i += 3) {
-              if (i < photos.length) rows.push(photos.slice(i, i + 3));
-              if (i < accents.length) rows.push(accents.slice(i, i + 3));
-            }
-            return rows.flat().map((card, idx) => renderCard(card, idx));
-          })()}
+          {pageCards.map((card, idx) => renderCard(card, idx))}
         </section>
 
         <nav
