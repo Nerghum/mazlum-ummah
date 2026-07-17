@@ -245,8 +245,8 @@ const NewsList = ({ slug }: { slug: string }) => {
                     <h2 className="MuiTypography-root MuiTypography-h4 css-12lpekd">
                       {pageCards[0]?.title}
                     </h2>
-                    <p className="MuiTypography-root MuiTypography-body2 css-jq5ltg">
-                      {pageCards[0]?.excerpt}
+                    <p className="MuiTypography-root MuiTypography-body2 css-jq5ltg news-excerpt-featured">
+                      {pageCards[0]?.fullExcerpt || pageCards[0]?.excerpt}
                     </p>
                   </div>
                 </div>

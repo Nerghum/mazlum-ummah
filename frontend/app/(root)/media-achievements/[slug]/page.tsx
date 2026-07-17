@@ -12,7 +12,7 @@ const MediaAchievementDetailsPage: FC<MediaAchievementDetailsPageProps> = async 
   const { slug } = await params;
   return (
     <>
-      <PageBanner title="Media Achievement" />
+      <PageBanner title="Media Achievement" adPosition="media_achievements_page_banner" />
       <MediaAchievementDetails slug={slug} />
     </>
   );

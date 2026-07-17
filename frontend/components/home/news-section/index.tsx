@@ -70,7 +70,7 @@ const NewsSection = ({
                   <div className="home-news-featured-text-inner">
                     <div className="home-news-text-wrap">
                       <h2 className="home-news-title">{cards[0].title}</h2>
-                      <p className="home-news-excerpt">{cards[0].excerpt}</p>
+                      <p className="home-news-excerpt home-news-excerpt-featured">{cards[0].fullExcerpt || cards[0].excerpt}</p>
                     </div>
                   </div>
                 </div>

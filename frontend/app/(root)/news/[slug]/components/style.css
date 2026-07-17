@@ -1213,6 +1213,12 @@ a {
   flex: none !important;
 }
 
+@media (min-width: 1024px) {
+  .news-excerpt-featured {
+    -webkit-line-clamp: 12 !important;
+  }
+}
+
 @media (min-width: 900px) {
   .css-jq5ltg {
     font-size: 1rem;

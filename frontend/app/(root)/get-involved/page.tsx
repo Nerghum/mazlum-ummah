@@ -9,7 +9,7 @@ const GetInvolvedPage = () => {
 
   return (
     <>
-      <PageBanner title={t("getInvolved.title")} />
+      <PageBanner title={t("getInvolved.title")} adPosition="get_involved_page_banner" />
     </>
   );
 };

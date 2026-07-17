@@ -57,7 +57,8 @@ const NewsDetails = ({ slug, categorySlug }: { slug: string; categorySlug?: stri
       </a>
     </div>
   );
-  const sidebarAdPosition = card.categorySlug ? `news_category_${card.categorySlug}_inline` : "news_detail_sidebar";
+  const sidebarAdPosition = card.categorySlug ? `news_category_${card.categorySlug}_detail_sidebar` : "news_detail_sidebar";
+  const bottomAdPosition = card.categorySlug ? `news_category_${card.categorySlug}_detail_bottom` : "news_detail_bottom";
   const hasPrintableImage = Boolean(card.src && card.src !== "/logo.png");
 
   const handlePrint = () => {
@@ -206,8 +207,6 @@ const NewsDetails = ({ slug, categorySlug }: { slug: string; categorySlug?: stri
             )}
           </div>
 
-          <AdSlot position="news_detail_top" className="news-details-top-ad-banner" width={728} height={90} fallback={topAdFallback} />
-
           <div className="MuiBox-root css-1fobf8d">
             <div
               className="html_Container MuiBox-root css-13l4rt3"
@@ -240,7 +239,7 @@ const NewsDetails = ({ slug, categorySlug }: { slug: string; categorySlug?: stri
 
           <MostRead slug={categorySlug || "general"} />
 
-          <AdSlot position="news_detail_bottom" className="news-details-ad-banner" width={728} height={90} fallback={bottomAdFallback} />
+          <AdSlot position={bottomAdPosition} className="news-details-ad-banner" width={728} height={90} fallback={bottomAdFallback} />
         </div>
 
         <div className="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 MuiGrid2-grid-lg-4.3 css-81xp92">

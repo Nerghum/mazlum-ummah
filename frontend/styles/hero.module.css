@@ -2,7 +2,6 @@
   width: 100%;
   position: relative;
   overflow: hidden;
-  background-color: #0f172a;
   color: white;
   display: flex;
   flex-direction: column;
@@ -33,13 +32,13 @@
   height: 100%;
   object-fit: cover;
   mix-blend-mode: overlay;
-  opacity: 0.35;
+  opacity: 1;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(98deg, rgb(0 0 0 / 50%) 30%, rgba(0, 0, 0, 0.02) 100%);
+  background: linear-gradient(90deg, #000, #0f172a00, #0000);
 }
 
 .container {

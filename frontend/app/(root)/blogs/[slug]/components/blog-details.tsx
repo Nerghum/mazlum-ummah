@@ -56,8 +56,8 @@ const BlogDetails = ({ slug }: { slug: string }) => {
       </a>
     </div>
   );
-  const sidebarAdPosition = card.categorySlug ? `blog_category_${card.categorySlug}_inline` : "blog_detail_sidebar";
-
+  const sidebarAdPosition = card.categorySlug ? `blog_category_${card.categorySlug}_detail_sidebar` : "blog_detail_sidebar";
+  const bottomAdPosition = card.categorySlug ? `blog_category_${card.categorySlug}_detail_bottom` : "blog_detail_bottom";
   return (
     <section className="MuiBox-root css-1vhc6zl">
       <div className="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1qkll0f">
@@ -124,7 +124,7 @@ const BlogDetails = ({ slug }: { slug: string }) => {
             </div>
           )}
 
-          <AdSlot position="blog_detail_bottom" className="blog-details-ad-banner" width={728} height={90} fallback={bottomAdFallback} />
+          <AdSlot position={bottomAdPosition} className="blog-details-ad-banner" width={728} height={90} fallback={bottomAdFallback} />
         </div>
 
         <div className="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 MuiGrid2-grid-lg-4.3 css-81xp92">

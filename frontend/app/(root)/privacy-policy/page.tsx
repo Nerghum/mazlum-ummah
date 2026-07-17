@@ -10,7 +10,7 @@ const PrivacyPolicy = () => {
 
   return (
     <>
-      <PageBanner title={t("privacy.title")} />
+      <PageBanner title={t("privacy.title")} adPosition="privacy_policy_page_banner" />
       <PrivacyContent />
     </>
   );

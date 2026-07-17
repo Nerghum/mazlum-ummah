@@ -139,9 +139,8 @@ const GalleryPage = () => {
   return (
     <>
       <PageBanner
-        adImageUrl="/banner.gif"
-        adLinkUrl="https://business.linkedin.com/advertise/ads/ads-guide"
         adPosition="gallery_page_banner"
+        title={locale === "bn" ? "গ্যালারি" : "Gallery"}
       />
       <section className="MuiBox-root css-1evun54">
         <div className="gallery-layout-container">

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import Hero from "@/components/hero";
+import PageBanner from "@/components/page-banner";
 import { ChevronRight } from "lucide-react";
 import "./style.css";
 import { useTranslations } from "@/hooks/use-translations";
@@ -116,10 +116,8 @@ const Achievements = () => {
 
   return (
     <>
-      <Hero
-        image="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80"
-        imageAlt="অফিস স্পেসের হেডার ব্যাকগ্রাউন্ড"
-        badge={t("media.pressHighlights")}
+      <PageBanner
+        adPosition="media_achievements_page_banner"
         title={
           <>
             {t("media.creatingHeadlines")}
@@ -127,8 +125,7 @@ const Achievements = () => {
             {t("media.buildingDigitalAge")}
           </>
         }
-        description={t("media.description")}
-        compact
+        subtitle={t("media.description")}
       />
 
       {loading ? (

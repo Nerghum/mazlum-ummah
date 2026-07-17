@@ -9,7 +9,7 @@ const TermsAndConditions = () => {
 
   return (
     <>
-      <PageBanner title={t("terms.title")} />
+      <PageBanner title={t("terms.title")} adPosition="terms_and_conditions_page_banner" />
       <TermsContent />
     </>
   );

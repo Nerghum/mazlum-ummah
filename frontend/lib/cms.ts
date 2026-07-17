@@ -26,6 +26,10 @@ export type CmsCategory = {
   description?: string;
   image?: CmsMedia;
   bannerImage?: CmsMedia;
+  pageTitle?: string;
+  pageTitleBn?: string;
+  pageSubtitle?: string;
+  pageSubtitleBn?: string;
 };
 
 export type CmsPost = {
@@ -195,6 +199,7 @@ export type CardItem = {
   isVideo?: boolean;
   loaded?: boolean;
   shortUrl?: string;
+  fullExcerpt?: string;
 };
 
 export type CmsShortlinkTarget = {
@@ -232,6 +237,11 @@ export function mediaUrl(media: CmsMedia | undefined, _fallbackIndex = 0) {
   if (!media?.url) return "/logo.png";
   if (media.url.startsWith("http")) return encodeURI(media.url);
   return encodeURI(`${ASSET_ORIGIN}${media.url}`);
+}
+
+export function stripHtml(html?: string) {
+  if (!html) return "";
+  return html.replace(/<[^>]*>?/gm, "").replace(/&nbsp;/g, " ").trim();
 }
 
 async function getJson<T>(path: string): Promise<T | null> {
@@ -365,5 +375,6 @@ export function postToCard(post: CmsPost, locale: LocaleCode, hrefPrefix: string
     isVideo: Boolean(videoEmbed),
     loaded: true,
     shortUrl: post.shortUrl,
+    fullExcerpt: stripHtml(text(post.content, locale)),
   };
 }

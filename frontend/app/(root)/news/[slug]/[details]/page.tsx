@@ -14,9 +14,10 @@ const NewsDetailsPage: FC<NewsDetailsPageProps> = async ({ params }) => {
   return (
     <>
       <PageBanner
-        adImageUrl="/banner.gif"
-        adLinkUrl="https://business.linkedin.com/advertise/ads/ads-guide"
-        adPosition="page_banner"
+        adPosition={`news_category_${slug}_detail_top`}
+        title="News"
+        categoryType="news"
+        categorySlug={slug}
       />
       <NewsDetails slug={details} categorySlug={slug} />
     </>

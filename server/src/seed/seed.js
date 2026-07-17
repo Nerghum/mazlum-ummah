@@ -9,7 +9,10 @@ import MenuItem from '../models/MenuItem.js';
 import News from '../models/News.js';
 import Setting from '../models/Setting.js';
 import User from '../models/User.js';
+import Media from '../models/Media.js';
 import { makeSlug } from '../utils/slug.js';
+import fs from 'fs/promises';
+import path from 'path';
 
 dotenv.config();
 await connectDatabase();
@@ -113,6 +116,45 @@ await MenuItem.create({ label: { en: 'Gallery', bn: 'গ্যালারি' }
 await MenuItem.create({ label: { en: 'Blog', bn: 'ব্লগ' }, url: '/blogs', order: 6 });
 await MenuItem.create({ label: { en: 'Notice', bn: 'নোটিশ' }, url: '/notice', order: 7 });
 await MenuItem.create({ label: { en: 'Contact', bn: 'যোগাযোগ' }, url: '/contact', order: 8 });
+
+/* ── Restore Media Library from uploads folder ── */
+const uploadsDir = path.join(process.cwd(), 'uploads');
+try {
+  const files = await fs.readdir(uploadsDir);
+  const mediaDocs = [];
+  for (const file of files) {
+    if (file === '.DS_Store' || file.startsWith('.')) continue;
+    const stat = await fs.stat(path.join(uploadsDir, file));
+    if (stat.isFile()) {
+      let type = 'document';
+      let mimeType = 'application/octet-stream';
+      const ext = path.extname(file).toLowerCase();
+      if (['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'].includes(ext)) {
+        type = 'image';
+        mimeType = `image/${ext === '.svg' ? 'svg+xml' : ext === '.jpg' ? 'jpeg' : ext.slice(1)}`;
+      } else if (['.mp4', '.webm', '.ogg'].includes(ext)) {
+        type = 'video';
+        mimeType = `video/${ext.slice(1)}`;
+      }
+      mediaDocs.push({
+        filename: file,
+        originalName: file,
+        mimeType,
+        size: stat.size,
+        url: `/uploads/${file}`,
+        folder: 'library',
+        type,
+        uploadedBy: superAdmin._id
+      });
+    }
+  }
+  if (mediaDocs.length > 0) {
+    await Media.insertMany(mediaDocs);
+    console.log(`Restored ${mediaDocs.length} files to Media Library.`);
+  }
+} catch (error) {
+  console.log('No uploads directory found or error reading it:', error.message);
+}
 
 console.log('Seed complete. Login: superadmin@news.local / Admin123!');
 process.exit(0);

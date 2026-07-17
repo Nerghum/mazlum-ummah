@@ -20,8 +20,13 @@ const NewsCategoryPage = ({ params }: NewsCategoryPageProps) => {
 
   return (
     <>
-      <PageBanner title={t(titleKey)} subtitle={t(subtitleKey)} categoryType="news" categorySlug={slug} />
-      <AdBanner position={`news_category_${slug}_banner`} showFallback={false} />
+      <PageBanner 
+        title={t(titleKey)} 
+        subtitle={t(subtitleKey)} 
+        categoryType="news" 
+        categorySlug={slug} 
+        adPosition={`news_category_${slug}_banner`}
+      />
       <NewsList slug={slug} />
     </>
   );

@@ -1,15 +1,16 @@
 import React from "react";
 import Image from "next/image";
 import styles from "@/styles/hero.module.css";
+import Link from "next/link";
 
 interface HeroProps {
   image: React.ComponentProps<typeof Image>["src"];
   imageAlt: string;
   title: React.ReactNode;
-  description: React.ReactNode;
-  badge?: string;
+  description?: React.ReactNode;
   compact?: boolean;
   priority?: boolean;
+  href?: string;
 }
 
 const Hero = ({
@@ -17,13 +18,13 @@ const Hero = ({
   imageAlt,
   title,
   description,
-  badge,
   compact = false,
   priority = false,
+  href,
 }: HeroProps) => {
   const sizeClass = compact ? styles.compact : styles.tall;
 
-  return (
+  const content = (
     <header className={`${styles.hero} ${sizeClass}`}>
       <Image
         src={image}
@@ -35,20 +36,26 @@ const Hero = ({
       />
       <div className={styles.overlay}></div>
 
-      <div className={styles.container}>
-        <div className={styles.text}>
-          {badge && (
-            <span className={styles.badge}>
-              <span className={styles.badgeDot}></span> {badge}
-            </span>
-          )}
-
-          <h1 className={styles.title}>{title}</h1>
-          <p className={styles.description}>{description}</p>
+      {title && (
+        <div className={styles.container}>
+          <div className={styles.text}>
+            <h1 className={styles.title}>{title}</h1>
+            {description && <p className={styles.description}>{description}</p>}
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
+
+  if (href) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+        {content}
+      </a>
+    );
+  }
+
+  return content;
 };
 
 export default Hero;

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import Hero from "@/components/hero";
+import PageBanner from "@/components/page-banner";
 import AdBanner from "@/components/ad-banner";
 import { ChevronRight } from "lucide-react";
 import "./style.css";
@@ -112,13 +112,11 @@ const BlogList = ({ categorySlug }: { categorySlug?: string }) => {
 
   return (
     <>
-      <Hero
-        image={featuredBlog?.src || "/logo.png"}
-        imageAlt={featuredBlog?.alt || "Blog"}
-        badge={t("blog.badge")}
+      <PageBanner
+        bgImage={featuredBlog?.src || "/logo.png"}
         title={featuredBlog?.title || ""}
-        description={featuredBlog?.excerpt || ""}
-        compact
+        subtitle={featuredBlog?.description || ""}
+        adPosition="blogs_page_banner"
       />
 
       <main className="container main-content">

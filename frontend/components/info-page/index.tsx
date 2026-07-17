@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Hero from "@/components/hero";
+import PageBanner from "@/components/page-banner";
 import { useTranslations } from "@/hooks/use-translations";
 import "./style.css";
 
@@ -33,13 +33,10 @@ const InfoPage = ({ pageKey }: { pageKey: InfoPageKey }) => {
 
   return (
     <>
-      <Hero
-        image="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80"
-        imageAlt={content.title}
-        badge={t("footer.others")}
+      <PageBanner
         title={content.title}
-        description={content.summary}
-        compact
+        subtitle={content.summary}
+        adPosition={`${pageKey}_page_banner`}
       />
       <section className="info-page">
         <div className="info-page__grid">

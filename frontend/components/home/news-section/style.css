@@ -234,6 +234,12 @@
   flex: none;
 }
 
+@media (min-width: 1024px) {
+  .home-news-excerpt-featured {
+    -webkit-line-clamp: 12 !important;
+  }
+}
+
 .home-news-grid {
   --Grid-columns: 12;
   --Grid-columnSpacing: 1.5rem;

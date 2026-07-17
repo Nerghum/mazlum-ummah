@@ -9,7 +9,11 @@ const TodaysNewsPage = () => {
 
   return (
     <>
-      <PageBanner title={t("home.todayNews")} subtitle={t("news.todaySubtitle")} />
+      <PageBanner
+        title={t("news.todaysNews")}
+        subtitle={t("news.todaySubtitle")}
+        adPosition="todays_news_page_banner"
+      />
       <TodaysNewsList />
     </>
   );

@@ -13,7 +13,7 @@ const ActivitiesPage = () => {
 
   return (
     <>
-      <PageBanner title={t("footer.activities")} subtitle={t("about.sectionHeading")} />
+      <PageBanner title={t("footer.activities")} adPosition="activities_page_banner" subtitle={t("about.sectionHeading")} />
       <section className="mx-auto grid max-w-6xl gap-5 px-5 py-12 md:grid-cols-3">
         {activities.map((activity) => (
           <article

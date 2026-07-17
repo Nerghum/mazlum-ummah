@@ -22,7 +22,7 @@ const NoticePage = () => {
 
   return (
     <>
-      <PageBanner title={t("notice.title")} subtitle={t("notice.subtitle")} />
+      <PageBanner title={t("notice.title")} subtitle={t("notice.subtitle")} adPosition="notice_page_banner" />
       <main className="notice-page">
         <div className="notice-page__header">
           <span className="notice-page__eyebrow">{t("notice.title")}</span>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import Hero from "@/components/hero";
+import PageBanner from "@/components/page-banner";
 import Wrapper from "@/components/wrapper";
 import { useTranslations } from "@/hooks/use-translations";
 import { fetchSocialPosts, type CmsSocialPost } from "@/lib/cms";
@@ -28,13 +28,10 @@ const SocialPostsPage = () => {
 
   return (
     <>
-      <Hero
-        image="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80"
-        imageAlt="Social posts header background"
-        badge={t("nav.socialPosts")}
+      <PageBanner
+        adPosition="social_posts_page_banner"
         title={t("nav.socialPosts")}
-        description={t("media.description")}
-        compact
+        subtitle={t("media.description")}
       />
 
       <div className="social-posts-page">
