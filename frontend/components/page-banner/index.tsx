@@ -71,7 +71,19 @@ const PageBanner = ({
   if (hasAd || showFallbackAd) {
     const src = hasAd ? adImageUrl(ad) : "/banner.gif";
     const alt = hasAd ? (ad.altText || ad.title || t("common.advertisement")) : t("common.advertisement");
-    const linkUrl = hasAd ? ad.targetUrl : "https://business.linkedin.com/advertise/ads/ads-guide";
+    
+    let linkUrl = hasAd ? (ad.targetUrl || "") : "https://business.linkedin.com/advertise/ads/ads-guide";
+    let target = "_blank";
+    
+    if (hasAd && linkUrl) {
+      if (ad.linkType === 'call') {
+        linkUrl = linkUrl.startsWith('tel:') ? linkUrl : `tel:${linkUrl.replace(/\\s+/g, '')}`;
+      } else if (ad.linkType === 'whatsapp') {
+        linkUrl = linkUrl.startsWith('http') ? linkUrl : `https://wa.me/${linkUrl.replace(/[^0-9+]/g, '')}`;
+      }
+      target = ad.openInNewTab !== false ? "_blank" : "_self";
+    }
+
     const className = "page-banner__ad-img page-banner__ad-img-desktop";
     const mobileClassName = "page-banner__ad-img page-banner__ad-img-mobile";
     const mobileSrc = (showFallbackAd && !hasAd) ? "/mobile-ad.jpeg" : src; // simple fallback logic
@@ -102,7 +114,7 @@ const PageBanner = ({
         <div className="page-banner__ad-wrapper">
           <div className="page-banner__ad-container">
             {linkUrl ? (
-              <a href={linkUrl} target="_blank" rel="noopener noreferrer">
+              <a href={linkUrl} target={target} rel={target === "_blank" ? "noopener noreferrer" : undefined}>
                 {content}
               </a>
             ) : (

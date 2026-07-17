@@ -32,10 +32,22 @@ const AdSlot = ({ position, className, imageClassName, width = 728, height = 90,
     />
   );
 
+  let href = ad.targetUrl || "";
+  if (href) {
+    if (ad.linkType === 'call') {
+      href = href.startsWith('tel:') ? href : `tel:${href.replace(/\\s+/g, '')}`;
+    } else if (ad.linkType === 'whatsapp') {
+      href = href.startsWith('http') ? href : `https://wa.me/${href.replace(/[^0-9+]/g, '')}`;
+    }
+  }
+
+  const target = ad.openInNewTab !== false ? "_blank" : undefined;
+  const rel = target === "_blank" ? "noopener noreferrer" : undefined;
+
   return (
     <div className={className}>
-      {ad.targetUrl ? (
-        <a href={ad.targetUrl} target="_blank" rel="noopener noreferrer">
+      {href ? (
+        <a href={href} target={target} rel={rel}>
           {image}
         </a>
       ) : image}

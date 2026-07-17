@@ -27,6 +27,13 @@ const SkeletonNewsCard = ({ featured = false }: { featured?: boolean }) => (
   </div>
 );
 
+export const SkeletonPageBanner = () => (
+  <section className="skeleton-page-banner">
+    <div className="skeleton-page-banner__title" />
+    <div className="skeleton-page-banner__subtitle" />
+  </section>
+);
+
 export const SkeletonHomeHero = () => (
   <section className="hero-slider skeleton-hero">
     <div className="hero-overlay">
@@ -168,7 +175,7 @@ export const SkeletonNewsCategoryPage = () => (
 
 export const SkeletonBlogListPage = () => (
   <>
-    <SkeletonHomeHero />
+    <SkeletonPageBanner />
     <SkeletonFeatureListContent />
   </>
 );

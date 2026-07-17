@@ -208,6 +208,8 @@ export function HomepageBuilderPage() {
   const [newType, setNewType] = useState("Today's News");
   const [collapsed, setCollapsed] = useState(new Set());
   const [searchModal, setSearchModal] = useState(null);
+  const [savingSections, setSavingSections] = useState({});
+  const [savedSections, setSavedSections] = useState({});
 
   const orderedSections = useMemo(() => [...data].sort((a, b) => (a.order || 0) - (b.order || 0)), [data]);
   const refreshSections = () => reload({ showLoading: false });
@@ -675,7 +677,27 @@ export function HomepageBuilderPage() {
                               <input type="number" min="1" max="24" className={inputClass()} defaultValue={section.settings?.limit || 6} onBlur={(event) => saveSection(section, { settings: { ...section.settings, limit: Number(event.target.value || 6) } })} />
                             </FormField>
                           )}
-                          <Button type="button" onClick={() => saveSection(section)}><Save size={16} /> Save Changes</Button>
+                          <Button 
+                            type="button" 
+                            loading={savingSections[section._id]}
+                            saved={savedSections[section._id]}
+                            onClick={async () => {
+                              setSavingSections(prev => ({ ...prev, [section._id]: true }));
+                              setSavedSections(prev => ({ ...prev, [section._id]: false }));
+                              try {
+                                await saveSection(section);
+                                setSavingSections(prev => ({ ...prev, [section._id]: false }));
+                                setSavedSections(prev => ({ ...prev, [section._id]: true }));
+                                setTimeout(() => {
+                                  setSavedSections(prev => ({ ...prev, [section._id]: false }));
+                                }, 2000);
+                              } catch (e) {
+                                setSavingSections(prev => ({ ...prev, [section._id]: false }));
+                              }
+                            }}
+                          >
+                            <Save size={16} /> Save Changes
+                          </Button>
                         </div>
                       </div>
                     </div>

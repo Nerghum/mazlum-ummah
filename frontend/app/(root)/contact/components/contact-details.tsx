@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Phone, Mail, MapPin, HelpCircle, ChevronDown, Info } from "lucide-react";
 import { useTranslations } from "@/hooks/use-translations";
 import { useLocale } from "@/hooks/use-locale";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 import { fetchFaqItems, text, type CmsFaqEntry } from "@/lib/cms";
 import "./style.css";
 
@@ -17,6 +18,9 @@ const ContactDetails = () => {
   const { locale } = useLocale();
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [faqItems, setFaqItems] = useState<CmsFaqEntry[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
+  const settings = useSiteSettings();
 
   useEffect(() => {
     let mounted = true;
@@ -46,6 +50,43 @@ const ContactDetails = () => {
   );
   const bottomFaq = dynamicFaq.length ? dynamicFaq : fallbackFaq;
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get('name'),
+      phoneOrEmail: formData.get('phoneOrEmail'),
+      topic: formData.get('topic'),
+      message: formData.get('message'),
+    };
+
+    try {
+      // In production, use NEXT_PUBLIC_API_URL if applicable, otherwise fallback to standard path
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
+      const res = await fetch(`${apiUrl}/public/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      
+      const result = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(result.message || 'Failed to send message');
+      }
+      
+      setSubmitStatus({ type: 'success', message: result.message || 'Message sent successfully!' });
+      (e.target as HTMLFormElement).reset();
+    } catch (err: any) {
+      setSubmitStatus({ type: 'error', message: err.message || 'An error occurred. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className="MuiBox-root css-1vhc6zl">
       <div className="MuiBox-root css-1l0ngya">
@@ -53,7 +94,12 @@ const ContactDetails = () => {
           <h4 className="MuiTypography-root MuiTypography-h4 css-nkoif0">
             {t("contact.formHeading")}
           </h4>
-          <form autoComplete="off">
+          {submitStatus && (
+            <div style={{ padding: '12px', marginBottom: '16px', borderRadius: '4px', backgroundColor: submitStatus.type === 'success' ? '#edf7ed' : '#fdeded', color: submitStatus.type === 'success' ? '#1e4620' : '#5f2120' }}>
+              {submitStatus.message}
+            </div>
+          )}
+          <form autoComplete="off" onSubmit={handleSubmit}>
             <div className="MuiStack-root css-1datsl3">
               <div className="MuiStack-root css-1sb3j1f">
                 <div className="MuiStack-root css-u4p24i">
@@ -233,8 +279,10 @@ const ContactDetails = () => {
                 tabIndex={0}
                 type="submit"
                 id=":r3n:"
+                disabled={isSubmitting}
+                style={{ opacity: isSubmitting ? 0.7 : 1, cursor: isSubmitting ? 'not-allowed' : 'pointer' }}
               >
-                <span className="MuiLoadingButton-label css-oz8hdd">{t("contact.send")}</span>
+                <span className="MuiLoadingButton-label css-oz8hdd">{isSubmitting ? 'Sending...' : t("contact.send")}</span>
                 <span className="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium css-1g78ho2">
                   <svg
                     className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hrd9ud"
@@ -309,7 +357,7 @@ const ContactDetails = () => {
           <div className="contact-social">
             <div className="contact-social__icons">
               <a
-                href="https://www.instagram.com/mazlumummah"
+                href={settings["site.instagramUrl"] || "https://www.instagram.com/mazlumummah"}
                 className="contact-social__link"
                 aria-label="Instagram"
                 target="_blank"
@@ -331,7 +379,7 @@ const ContactDetails = () => {
                 </svg>
               </a>
               <a
-                href="https://www.facebook.com/mazlumummah"
+                href={settings["site.facebookUrl"] || "https://www.facebook.com/mazlumummah"}
                 className="contact-social__link"
                 aria-label="Facebook"
                 target="_blank"
@@ -353,7 +401,7 @@ const ContactDetails = () => {
                 </svg>
               </a>
               <a
-                href="https://www.linkedin.com/company/mazlum-ummah"
+                href={settings["site.linkedinUrl"] || "https://www.linkedin.com/company/mazlum-ummah"}
                 className="contact-social__link"
                 aria-label="LinkedIn"
                 target="_blank"
@@ -366,7 +414,7 @@ const ContactDetails = () => {
                 </svg>
               </a>
               <a
-                href="https://www.youtube.com/@MazlumUmmah"
+                href={settings["site.youtubeUrl"] || "https://www.youtube.com/@MazlumUmmah"}
                 className="contact-social__link"
                 aria-label="YouTube"
                 target="_blank"

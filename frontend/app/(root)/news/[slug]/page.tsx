@@ -1,10 +1,7 @@
-"use client";
-
 import React from "react";
-import PageBanner from "@/components/page-banner";
-import AdBanner from "@/components/ad-banner";
-import { useTranslations } from "@/hooks/use-translations";
-import NewsList from "./components/newslist";
+import { Metadata } from "next";
+import { fetchCategory, generateSeoMetadata, mediaUrl } from "@/lib/cms";
+import NewsCategoryClientPage from "./client-page";
 
 type NewsCategoryPageProps = {
   params: Promise<{
@@ -12,23 +9,26 @@ type NewsCategoryPageProps = {
   }>;
 };
 
-const NewsCategoryPage = ({ params }: NewsCategoryPageProps) => {
-  const t = useTranslations();
-  const { slug } = React.use(params);
-  const titleKey = `news.${slug === "sudan" ? "sudanTitle" : slug === "gaza" ? "gazaTitle" : slug === "middle-east" ? "middleEastTitle" : slug === "africa" ? "africaTitle" : "defaultTitle"}`;
-  const subtitleKey = `news.${slug === "sudan" ? "sudanSubtitle" : slug === "gaza" ? "gazaSubtitle" : slug === "middle-east" ? "middleEastSubtitle" : slug === "africa" ? "africaSubtitle" : "defaultSubtitle"}`;
+export async function generateMetadata({ params }: NewsCategoryPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const category = await fetchCategory("news", slug);
+
+  if (!category) {
+    return generateSeoMetadata();
+  }
+
+  const actualTitle = category.seoTitle || category.nameBn || category.name;
+  const actualDescription = category.seoDescription || category.description;
+  const actualImage = category.image ? mediaUrl(category.image) : null;
+  
+  return generateSeoMetadata(actualTitle, actualDescription, actualImage, category.seoKeywords);
+}
+
+const NewsCategoryPage = async ({ params }: NewsCategoryPageProps) => {
+  const { slug } = await params;
 
   return (
-    <>
-      <PageBanner 
-        title={t(titleKey)} 
-        subtitle={t(subtitleKey)} 
-        categoryType="news" 
-        categorySlug={slug} 
-        adPosition={`news_category_${slug}_banner`}
-      />
-      <NewsList slug={slug} />
-    </>
+    <NewsCategoryClientPage slug={slug} />
   );
 };
 

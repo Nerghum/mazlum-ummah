@@ -1,19 +1,5 @@
-"use client";
+import InfoPage from "@/components/info-page";
 
-import PageBanner from "@/components/page-banner";
-import React from "react";
-import PrivacyContent from "./components/privacy-content";
-import { useTranslations } from "@/hooks/use-translations";
-
-const PrivacyPolicy = () => {
-  const t = useTranslations();
-
-  return (
-    <>
-      <PageBanner title={t("privacy.title")} adPosition="privacy_policy_page_banner" />
-      <PrivacyContent />
-    </>
-  );
-};
+const PrivacyPolicy = () => <InfoPage pageKey="privacy" />;
 
 export default PrivacyPolicy;

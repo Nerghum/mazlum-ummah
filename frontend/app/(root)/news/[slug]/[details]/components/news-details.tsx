@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import "./style.css";
 import MostRead from "./most-read";
@@ -8,21 +8,13 @@ import AdSlot from "@/components/ad-slot";
 import CopyShortlinkButton from "@/components/copy-shortlink-button";
 import { SkeletonDetailPage } from "@/components/skeleton-loader";
 import { useTranslations } from "@/hooks/use-translations";
-import { CardItem, fetchNewsBySlug, postToCard } from "@/lib/cms";
-import { useLocale } from "@/hooks/use-locale";
+import { CardItem } from "@/lib/cms";
 
-const NewsDetails = ({ slug, categorySlug }: { slug: string; categorySlug?: string }) => {
+const NewsDetails = ({ slug, categorySlug, initialCard }: { slug: string; categorySlug?: string; initialCard?: CardItem | null }) => {
   const t = useTranslations();
-  const { locale } = useLocale();
-  const [card, setCard] = useState<CardItem | null | undefined>(undefined);
+  const [card, setCard] = useState<CardItem | null | undefined>(initialCard);
   const [isPrintOpen, setIsPrintOpen] = useState(false);
   const printPreviewRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    fetchNewsBySlug(slug).then((post) => {
-      setCard(post ? postToCard(post, locale, `/news/${categorySlug || "general"}`, 0) : null);
-    });
-  }, [categorySlug, locale, slug]);
 
   if (card === undefined) {
     return <SkeletonDetailPage />;

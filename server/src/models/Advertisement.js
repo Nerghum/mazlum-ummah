@@ -7,6 +7,8 @@ const advertisementSchema = new mongoose.Schema(
     media: { type: mongoose.Schema.Types.ObjectId, ref: 'Media' },
     mobileMedia: { type: mongoose.Schema.Types.ObjectId, ref: 'Media' },
     targetUrl: String,
+    linkType: { type: String, enum: ['website', 'call', 'whatsapp'], default: 'website' },
+    openInNewTab: { type: Boolean, default: true },
     altText: String,
     startsAt: Date,
     endsAt: Date,

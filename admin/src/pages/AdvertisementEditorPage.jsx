@@ -23,6 +23,8 @@ const schema = z.object({
   media: z.string().optional().nullable(),
   mobileMedia: z.string().optional().nullable(),
   targetUrl: z.string().optional(),
+  linkType: z.enum(['website', 'call', 'whatsapp']).default('website'),
+  openInNewTab: z.boolean().default(true),
   altText: z.string().optional(),
   startsAt: z.string().optional(),
   endsAt: z.string().optional(),
@@ -36,6 +38,8 @@ const defaults = {
   media: null,
   mobileMedia: null,
   targetUrl: '',
+  linkType: 'website',
+  openInNewTab: true,
   altText: '',
   startsAt: '',
   endsAt: '',
@@ -136,9 +140,22 @@ export function AdvertisementEditorPage() {
                 <MediaImageField label="Mobile Ad image or GIF" value={field.value} initialItems={initialMobileMedia} onChange={field.onChange} />
               )}
             />
-            <FormField label="Target link (optional)">
-              <input placeholder="https://example.com" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('targetUrl')} />
-            </FormField>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <FormField label="Target Link Type">
+                <select className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('linkType')}>
+                  <option value="website">Website Link</option>
+                  <option value="call">Call Number</option>
+                  <option value="whatsapp">WhatsApp</option>
+                </select>
+              </FormField>
+              <FormField label="Target Link / Number">
+                <input placeholder={watch('linkType') === 'website' ? "https://example.com" : "+1234567890"} className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('targetUrl')} />
+              </FormField>
+            </div>
+            <label className="flex items-center gap-2 text-sm font-medium">
+              <input type="checkbox" {...register('openInNewTab')} />
+              Open link in a new tab
+            </label>
             <FormField label="Alt text">
               <input className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('altText')} />
             </FormField>

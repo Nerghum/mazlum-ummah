@@ -21,7 +21,7 @@ export function CategoriesPage({ type = 'news' }) {
   const dispatch = useDispatch();
   const { register, handleSubmit, reset, control, formState: { errors } } = useForm({
     mode: 'onSubmit',
-    defaultValues: { name: '', nameBn: '', sortOrder: 0, seoTitle: '', image: null, bannerImage: null, pageTitle: '', pageTitleBn: '', pageSubtitle: '', pageSubtitleBn: '' }
+    defaultValues: { name: '', nameBn: '', sortOrder: 0, seoTitle: '', seoDescription: '', image: null, bannerImage: null, pageTitle: '', pageTitleBn: '', pageSubtitle: '', pageSubtitleBn: '' }
   });
 
   const title = type === 'blog' ? 'Blog Categories' : 'News Categories';
@@ -81,6 +81,7 @@ export function CategoriesPage({ type = 'news' }) {
       nameBn: row.nameBn || '',
       sortOrder: row.sortOrder || 0,
       seoTitle: row.seoTitle || '',
+      seoDescription: row.seoDescription || '',
       image: row.image?._id || row.image || null,
       bannerImage: row.bannerImage?._id || row.bannerImage || null,
       pageTitle: row.pageTitle || '',
@@ -94,7 +95,7 @@ export function CategoriesPage({ type = 'news' }) {
     setEditingId(null);
     setInitialImage(null);
     setInitialBannerImage(null);
-    reset({ name: '', nameBn: '', sortOrder: 0, seoTitle: '', image: null, bannerImage: null, pageTitle: '', pageTitleBn: '', pageSubtitle: '', pageSubtitleBn: '' });
+    reset({ name: '', nameBn: '', sortOrder: 0, seoTitle: '', seoDescription: '', image: null, bannerImage: null, pageTitle: '', pageTitleBn: '', pageSubtitle: '', pageSubtitleBn: '' });
   }
 
   return (
@@ -150,6 +151,7 @@ export function CategoriesPage({ type = 'news' }) {
             <FormField label="Page subtitle (Bangla)"><input dir="auto" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('pageSubtitleBn')} /></FormField>
             <FormField label="Sort order"><input type="number" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('sortOrder')} /></FormField>
             <FormField label="SEO title"><input className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('seoTitle')} /></FormField>
+            <FormField label="SEO description"><textarea rows={3} className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('seoDescription')} /></FormField>
             <Button className="w-full"><Plus size={16} /> {editingId ? 'Update category' : 'Add category'}</Button>
           </form>
         </Card>

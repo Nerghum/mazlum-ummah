@@ -40,7 +40,12 @@ export function SettingsPage() {
         youtubeUrl: 'https://www.youtube.com/@MazlumUmmah',
         linkedinUrl: 'https://www.linkedin.com/company/mazlum-ummah',
         instagramUrl: '',
-        whatsappUrl: ''
+        whatsappUrl: '',
+        adminEmail: '',
+        smtpHost: '',
+        smtpPort: '587',
+        smtpUser: '',
+        smtpPass: ''
       }
     }
   });
@@ -166,6 +171,26 @@ export function SettingsPage() {
           </div>
         </Card>
 
+        <Card className="p-5">
+          <h2 className="mb-4 font-semibold">Mail Settings</h2>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <FormField label="Admin Receiving Email">
+              <input type="email" placeholder="admin@mazlumummah.com" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('contact.adminEmail')} />
+            </FormField>
+            <FormField label="SMTP Host (Webmail)">
+              <input type="text" placeholder="mail.mazlumummah.com" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('contact.smtpHost')} />
+            </FormField>
+            <FormField label="SMTP Port">
+              <input type="number" placeholder="587 or 465" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('contact.smtpPort')} />
+            </FormField>
+            <FormField label="SMTP Username">
+              <input type="text" placeholder="info@mazlumummah.com" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('contact.smtpUser')} />
+            </FormField>
+            <FormField label="SMTP Password">
+              <input type="password" placeholder="••••••••" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('contact.smtpPass')} />
+            </FormField>
+          </div>
+        </Card>
 
         <Button type="submit" loading={saving}><Save size={16} /> Save settings</Button>
       </form>

@@ -1,17 +1,30 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 import PageBanner from "@/components/page-banner";
-import GallerySidebar from "./components/gallery-sidebar";
-import GalleryGrid from "./components/gallery-grid";
+import GallerySidebar from "../components/gallery-sidebar";
+import GalleryGrid from "../components/gallery-grid";
 import { GalleryItem } from "@/data/gallery-data";
 import { CmsCategory, categoryName, fetchCategories, fetchNews, mediaUrl, text } from "@/lib/cms";
 import { useLocale } from "@/hooks/use-locale";
 import { youtubeIdFromUrl, youtubeThumbnailUrl } from "@/lib/video";
 
 const GalleryPage = () => {
+  const router = useRouter();
+  const params = useParams();
+  const slug = params?.slug as string[] | undefined;
+  
   const { locale } = useLocale();
-  const [selectedType, setSelectedType] = useState<"image" | "video">("image");
+  const [selectedType, setSelectedType] = useState<"image" | "video">((slug?.[0] as "image" | "video") || "image");
+
+  useEffect(() => {
+    if (slug?.[0] === "image" || slug?.[0] === "video") {
+      setSelectedType(slug[0]);
+    } else if (!slug || slug.length === 0) {
+      setSelectedType("image");
+    }
+  }, [slug]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedYear, setSelectedYear] = useState<string | number>("all");
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
@@ -125,6 +138,7 @@ const GalleryPage = () => {
     setSelectedType(type);
     setSelectedCategory("all");
     setSelectedYear("all");
+    router.push(`/gallery/${type}`, { scroll: false });
   };
 
   const handleCategoryChange = (value: string) => {

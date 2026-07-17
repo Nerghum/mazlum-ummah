@@ -1,34 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import "./style.css";
 import AdSlot from "@/components/ad-slot";
 import CopyShortlinkButton from "@/components/copy-shortlink-button";
 import { SkeletonDetailPage } from "@/components/skeleton-loader";
 import { useTranslations } from "@/hooks/use-translations";
-import { CardItem, fetchBlogBySlug, fetchBlogs, postToCard } from "@/lib/cms";
-import { useLocale } from "@/hooks/use-locale";
+import { CardItem } from "@/lib/cms";
 
-const BlogDetails = ({ slug }: { slug: string }) => {
+const BlogDetails = ({ slug, initialCard, initialRelated }: { slug: string; initialCard?: CardItem | null; initialRelated?: CardItem[] }) => {
   const t = useTranslations();
-  const { locale } = useLocale();
-  const [card, setCard] = useState<CardItem | null | undefined>(undefined);
-  const [related, setRelated] = useState<CardItem[]>([]);
-
-  useEffect(() => {
-    fetchBlogBySlug(slug).then((post) => {
-      setCard(post ? postToCard(post, locale, "/blogs", 0) : null);
-    });
-    fetchBlogs(4).then((posts) => {
-      setRelated(
-        posts
-          .filter((post) => post.slug !== slug)
-          .slice(0, 3)
-          .map((post, index) => postToCard(post, locale, "/blogs", index + 1))
-      );
-    });
-  }, [locale, slug]);
+  const [card, setCard] = useState<CardItem | null | undefined>(initialCard);
+  const [related, setRelated] = useState<CardItem[]>(initialRelated || []);
 
   if (card === undefined) {
     return <SkeletonDetailPage />;

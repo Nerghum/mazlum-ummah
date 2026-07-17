@@ -11,6 +11,7 @@ import SocialPost from '../models/SocialPost.js';
 import HomepageSection from '../models/HomepageSection.js';
 import * as FaqController from '../controllers/faq.controller.js';
 import * as MenuController from '../controllers/menu.controller.js';
+import { submitContactForm } from '../controllers/contact.controller.js';
 import Comment from '../models/Comment.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { normalizeHomepageSection } from '../utils/homepageTitle.js';
@@ -273,5 +274,7 @@ router.post('/comments', asyncHandler(async (req, res) => {
   const comment = await Comment.create(req.body);
   res.status(201).json({ success: true, data: comment });
 }));
+
+router.post('/contact', submitContactForm);
 
 export default router;

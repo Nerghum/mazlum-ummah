@@ -7,17 +7,22 @@ import NextTopLoader from "nextjs-toploader";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { cookies } from "next/headers";
 import CopyProtection from "@/components/copy-protection";
-import { fetchSiteSettings, mediaUrl } from "@/lib/cms";
+import { fetchSiteSettings, generateSeoMetadata, mediaUrl } from "@/lib/cms";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const metadata = await generateSeoMetadata();
   const settings = await fetchSiteSettings();
   const faviconUrl = settings["site.faviconMedia"]
     ? mediaUrl(settings["site.faviconMedia"])
     : "/favicon.ico";
+    
+  // Override title to remove the pipe and siteName suffix for the root layout
+  // since generateSeoMetadata adds " | Site Title" if titleOverride is provided,
+  // but if not provided, it just returns "Site Title".
+  // Which is correct for the root layout!
 
   return {
-    title: settings["site.title"] || "Mazlum Ummah",
-    description: settings["site.description"] || "A platform to support the oppressed and marginalized communities around the world.",
+    ...metadata,
     icons: {
       icon: faviconUrl,
       apple: faviconUrl,

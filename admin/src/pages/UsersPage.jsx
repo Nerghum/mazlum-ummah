@@ -1,4 +1,4 @@
-import { Plus, Edit, Trash2, X } from 'lucide-react';
+import { Plus, Edit, Trash2, X, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '../components/Button.jsx';
@@ -15,6 +15,7 @@ const defaultValues = { name: '', email: '', password: '', role: 'Journalist' };
 export function UsersPage() {
   const { data, loading, reload } = useApiResource('/users');
   const [editingId, setEditingId] = useState(null);
+  const [notification, setNotification] = useState('');
   const { register, handleSubmit, reset } = useForm({ defaultValues });
 
   async function save(values) {
@@ -22,12 +23,15 @@ export function UsersPage() {
       const payload = { ...values };
       if (!payload.password) delete payload.password;
       await api.put(`/users/${editingId}`, payload);
+      setNotification('User updated successfully');
     } else {
       await api.post('/users', values);
+      setNotification('User created successfully');
     }
     setEditingId(null);
     reset(defaultValues);
     reload();
+    setTimeout(() => setNotification(''), 3000);
   }
 
   function handleEdit(row) {
@@ -48,6 +52,12 @@ export function UsersPage() {
 
   return (
     <>
+      {notification && (
+        <div className="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 z-50">
+          <CheckCircle size={18} />
+          {notification}
+        </div>
+      )}
       <PageHeader title="Users" description="Manage newsroom users, roles, and RBAC access." />
       <div className="grid gap-5 lg:grid-cols-[380px_1fr]">
         <Card className="p-5">

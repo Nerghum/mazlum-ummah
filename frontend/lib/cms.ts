@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { youtubeEmbedUrl, youtubeThumbnailUrl } from "./video";
 
 export type LocaleCode = "en" | "bn";
@@ -30,6 +31,9 @@ export type CmsCategory = {
   pageTitleBn?: string;
   pageSubtitle?: string;
   pageSubtitleBn?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
 };
 
 export type CmsPost = {
@@ -48,6 +52,9 @@ export type CmsPost = {
   categories?: CmsCategory[];
   views?: number;
   shortUrl?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
 };
 
 export type CmsMediaAchievement = CmsPost & {
@@ -91,7 +98,10 @@ export type CmsAd = {
   title: string;
   placements?: string[];
   media?: CmsMedia;
+  mobileMedia?: CmsMedia;
   targetUrl?: string;
+  linkType?: 'website' | 'call' | 'whatsapp';
+  openInNewTab?: boolean;
   altText?: string;
 };
 
@@ -255,6 +265,56 @@ async function getJson<T>(path: string): Promise<T | null> {
   }
 }
 
+export async function generateSeoMetadata(
+  titleOverride?: string | null,
+  descriptionOverride?: string | null,
+  imageOverrideUrl?: string | null,
+  keywordsOverride?: string[] | null
+): Promise<Metadata> {
+  const settings = await fetchSiteSettings();
+  const siteTitle = settings["site.title"] || "Mazlum Ummah";
+  const siteDescription =
+    settings["site.description"] ||
+    "A platform to support the oppressed and marginalized communities around the world.";
+  const siteLogoUrl = settings["site.logoMedia"]
+    ? mediaUrl(settings["site.logoMedia"])
+    : "/favicon.ico";
+
+  const finalTitle = titleOverride
+    ? `${titleOverride} | ${siteTitle}`
+    : siteTitle;
+  const finalDescription = descriptionOverride || siteDescription;
+  const finalImageUrl = imageOverrideUrl || siteLogoUrl;
+
+  const metadata: Metadata = {
+    title: finalTitle,
+    description: finalDescription,
+    openGraph: {
+      title: finalTitle,
+      description: finalDescription,
+      siteName: siteTitle,
+      images: [
+        {
+          url: finalImageUrl,
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: finalTitle,
+      description: finalDescription,
+      images: [finalImageUrl],
+    },
+  };
+
+  if (keywordsOverride && keywordsOverride.length > 0) {
+    metadata.keywords = keywordsOverride;
+  }
+
+  return metadata;
+}
+
 export type FetchNewsOptions = {
   limit?: number;
   categorySlug?: string;
@@ -284,11 +344,11 @@ export async function fetchNews(options: number | FetchNewsOptions = 48) {
 }
 
 export async function fetchBlogs(limit = 48) {
-  return (await getJson<CmsPost[]>(`/public/blogs?limit=${limit}`)) || [];
+  return (await getJson<CmsPost[]>(`/public/blogs?limit=${limit}&sort=-publishDate`)) || [];
 }
 
 export async function fetchBlogsByCategory(categorySlug: string, limit = 48) {
-  return (await getJson<CmsPost[]>(`/public/blogs?categorySlug=${categorySlug}&limit=${limit}`)) || [];
+  return (await getJson<CmsPost[]>(`/public/blogs?categorySlug=${categorySlug}&limit=${limit}&sort=-publishDate`)) || [];
 }
 
 export async function fetchCategories(type: "news" | "blog") {

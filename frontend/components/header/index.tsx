@@ -358,6 +358,60 @@ const Header = () => {
                   />
                 </svg>
               </a>
+              <a
+                href={settings["site.youtubeUrl"] || "https://www.youtube.com/@MazlumUmmah"}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+              >
+                <svg
+                  className="social-icon-png"
+                  viewBox="0 0 24 24"
+                  width={24}
+                  height={24}
+                  fill="#FF0000"
+                >
+                  <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                </svg>
+                <svg
+                  className="social-icon-svg"
+                  viewBox="0 0 24 24"
+                  width={20}
+                  height={20}
+                  fill="currentColor"
+                >
+                  <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                </svg>
+              </a>
+              <a
+                href={settings["site.linkedinUrl"] || "https://www.linkedin.com/company/mazlum-ummah"}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <svg
+                  className="social-icon-png"
+                  viewBox="0 0 24 24"
+                  width={24}
+                  height={24}
+                  fill="#0A66C2"
+                >
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect width="4" height="12" x="2" y="9" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+                <svg
+                  className="social-icon-svg"
+                  viewBox="0 0 24 24"
+                  width={20}
+                  height={20}
+                  fill="currentColor"
+                >
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect width="4" height="12" x="2" y="9" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
             </div>
             <button
               className="css-e5b6qv"
