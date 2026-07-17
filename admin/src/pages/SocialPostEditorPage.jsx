@@ -148,7 +148,7 @@ export function SocialPostEditorPage() {
         </Card>
 
         <div className="space-y-5">
-          <Card className="sticky top-20 z-10 p-5">
+          <Card className="p-5">
             <div className="space-y-4">
               <FormField label="Post type">
                 <select

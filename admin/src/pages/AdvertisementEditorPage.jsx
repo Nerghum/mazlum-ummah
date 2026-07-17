@@ -153,7 +153,7 @@ export function AdvertisementEditorPage() {
           </div>
         </Card>
         <div className="space-y-5">
-          <Card className="sticky top-20 z-10 p-5">
+          <Card className="p-5">
             <div className="space-y-4">
               <FormField label="Starts at"><input type="datetime-local" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('startsAt')} /></FormField>
               <FormField label="Ends at"><input type="datetime-local" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('endsAt')} /></FormField>
