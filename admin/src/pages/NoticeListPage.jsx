@@ -1,4 +1,4 @@
-import { Edit, Megaphone, Plus, Trash2 } from 'lucide-react';
+import { Edit, ExternalLink, Megaphone, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/Button.jsx';
@@ -8,6 +8,7 @@ import { useApiResource } from '../hooks/useApiResource.js';
 import { api } from '../services/api.js';
 import { formatDate } from '../utils/format.js';
 import { localizedValue } from '../utils/localized.js';
+import { noticePreviewUrl } from '../utils/preview.js';
 
 export function NoticeListPage() {
   const [filters, setFilters] = useState({ search: '', status: '' });
@@ -30,7 +31,7 @@ export function NoticeListPage() {
     { key: 'isPinned', label: 'Pinned', render: (row) => row.isPinned ? 'Yes' : 'No' },
     { key: 'publishDate', label: 'Publish date', render: (row) => formatDate(row.publishDate) },
     { key: 'expiresAt', label: 'Expires', render: (row) => formatDate(row.expiresAt) },
-    { key: 'actions', label: 'Actions', render: (row) => <Link className="text-brand-600" to={`/notices/${row._id}/edit`}><Edit size={18} /></Link> }
+    { key: 'actions', label: 'Actions', render: (row) => <div className="flex items-center gap-2"><a href={noticePreviewUrl(row)} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-emerald-600" title="View on site"><ExternalLink size={16} /></a><Link className="text-brand-600" to={`/notices/${row._id}/edit`}><Edit size={18} /></Link></div> }
   ];
 
   return (

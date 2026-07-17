@@ -1,4 +1,4 @@
-import { Edit, Plus, Trash2 } from 'lucide-react';
+import { Edit, ExternalLink, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/Button.jsx';
@@ -8,6 +8,7 @@ import { useApiResource } from '../hooks/useApiResource.js';
 import { api } from '../services/api.js';
 import { formatDate } from '../utils/format.js';
 import { localizedValue } from '../utils/localized.js';
+import { blogPreviewUrl } from '../utils/preview.js';
 
 export function BlogListPage() {
   const [filters, setFilters] = useState({ search: '', status: '' });
@@ -30,7 +31,7 @@ export function BlogListPage() {
     { key: 'categories', label: 'Categories', render: (row) => row.categories?.map((c) => c.name || c.nameBn).filter(Boolean).join(', ') || '-' },
     { key: 'views', label: 'Views' },
     { key: 'publishDate', label: 'Publish date', render: (row) => formatDate(row.publishDate) },
-    { key: 'actions', label: 'Actions', render: (row) => <Link className="text-brand-600" to={`/blogs/${row._id}/edit`}><Edit size={18} /></Link> }
+    { key: 'actions', label: 'Actions', render: (row) => <div className="flex items-center gap-2"><a href={blogPreviewUrl(row)} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-emerald-600" title="View on site"><ExternalLink size={16} /></a><Link className="text-brand-600" to={`/blogs/${row._id}/edit`}><Edit size={18} /></Link></div> }
   ];
 
   return (
