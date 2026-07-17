@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BadgeDollarSign, BarChart3, BookOpenText, FileText, HelpCircle, Home, Images, LayoutDashboard, LogOut, Megaphone, Menu, MessageSquareText, Moon, Settings, Sun, Users, X } from 'lucide-react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +30,12 @@ export function AdminLayout() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const { darkMode, toast } = useSelector((state) => state.ui);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => dispatch(hideToast()), 3000);
+    return () => clearTimeout(timer);
+  }, [toast, dispatch]);
 
   return (
     <div className={classNames('min-h-screen', darkMode && 'dark')}>
