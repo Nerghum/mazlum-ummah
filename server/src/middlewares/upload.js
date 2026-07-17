@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'video/mp4', 'video/webm', 'image/x-icon', 'image/vnd.microsoft.icon'];
+const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'video/mp4', 'video/webm', 'image/x-icon', 'image/vnd.microsoft.icon', 'application/zip', 'application/x-zip-compressed'];
 
 export const upload = multer({
   storage,

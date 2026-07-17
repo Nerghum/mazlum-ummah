@@ -12,6 +12,6 @@ router.post('/', authorize('blog:create'), validate(blogSchema), controller.crea
 router.post('/bulk', authorize('blog:*'), validate(bulkBlogSchema), controller.bulk);
 router.get('/:id', authorize('blog:read'), controller.get);
 router.put('/:id', authorize('blog:*', 'blog:update-own'), validate(blogSchema), controller.update);
-router.delete('/:id', authorize('blog:*'), controller.remove);
+router.delete('/:id', authorize('blog:*', 'blog:delete-own'), controller.remove);
 
 export default router;

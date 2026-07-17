@@ -12,6 +12,6 @@ router.post('/', authorize('news:create'), validate(newsSchema), controller.crea
 router.post('/bulk', authorize('news:*'), validate(bulkNewsSchema), controller.bulk);
 router.get('/:id', authorize('news:read'), controller.get);
 router.put('/:id', authorize('news:*', 'news:update-own'), validate(newsSchema), controller.update);
-router.delete('/:id', authorize('news:*'), controller.remove);
+router.delete('/:id', authorize('news:*', 'news:delete-own'), controller.remove);
 
 export default router;

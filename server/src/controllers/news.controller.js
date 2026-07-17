@@ -1,10 +1,11 @@
 import News from '../models/News.js';
 import * as NewsService from '../services/news.service.js';
 import { AppError } from '../utils/AppError.js';
+import { hasPermission } from '../config/roles.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
 export const list = asyncHandler(async (req, res) => {
-  res.json({ success: true, data: await NewsService.listNews(req.query) });
+  res.json({ success: true, data: await NewsService.listNews(req.query, req.user) });
 });
 
 export const get = asyncHandler(async (req, res) => {
@@ -24,6 +25,11 @@ export const update = asyncHandler(async (req, res) => {
 });
 
 export const remove = asyncHandler(async (req, res) => {
+  const news = await News.findById(req.params.id);
+  if (!news) throw new AppError('News not found', 404);
+  if (!hasPermission(req.user.role, 'news:*') && news.author.toString() !== req.user.id.toString()) {
+    throw new AppError('You can only delete your own news', 403);
+  }
   await News.findByIdAndDelete(req.params.id);
   res.status(204).send();
 });

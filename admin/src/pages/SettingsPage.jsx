@@ -1,4 +1,4 @@
-import { Save } from 'lucide-react';
+import { Save, Download, Upload } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -82,6 +82,48 @@ export function SettingsPage() {
     }
   }
 
+  const handleExport = async () => {
+    try {
+      dispatch(showToast('Preparing export...'));
+      const response = await api.get('/settings/export', { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'mazlum-ummah-backup.zip');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      dispatch(showToast('Failed to export data'));
+    }
+  };
+
+  const handleImport = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    if (!window.confirm('WARNING: Importing data will completely overwrite your existing database and media files. This action cannot be undone. Are you sure you want to proceed?')) {
+      e.target.value = '';
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append('backup', file);
+    
+    try {
+      dispatch(showToast('Importing data... please wait'));
+      await api.post('/settings/import', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      dispatch(showToast('Data imported successfully. Reloading...'));
+      setTimeout(() => window.location.reload(), 1500);
+    } catch (error) {
+      dispatch(showToast(error.response?.data?.message || 'Failed to import data'));
+    } finally {
+      e.target.value = '';
+    }
+  };
+
   return (
     <>
       <PageHeader title="Settings" description="Basic website identity and social links configuration." />
@@ -127,6 +169,25 @@ export function SettingsPage() {
 
         <Button type="submit" loading={saving}><Save size={16} /> Save settings</Button>
       </form>
+      
+      <div className="mt-8">
+        <Card className="p-5 border-red-200 dark:border-red-900/50">
+          <h2 className="mb-2 font-semibold text-red-600 dark:text-red-400">Data Management</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+            Export all your database collections and media files into a ZIP backup, or restore your entire site from a backup.
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <Button type="button" variant="outline" onClick={handleExport}>
+              <Download size={16} /> Export Data
+            </Button>
+            
+            <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+              <Upload size={16} /> Import Data
+              <input type="file" accept=".zip" className="hidden" onChange={handleImport} />
+            </label>
+          </div>
+        </Card>
+      </div>
     </>
   );
 }

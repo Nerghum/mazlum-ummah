@@ -1,5 +1,3 @@
-export const roles = ['Super Admin', 'Admin', 'Editor', 'Journalist', 'Moderator'];
-
 export const permissions = {
   'Super Admin': ['*'],
   Admin: ['dashboard:read', 'news:*', 'blog:*', 'mediaAchievement:*', 'socialPost:*', 'notice:*', 'advertisement:*', 'menu:*', 'faq:*', 'category:*', 'country:*', 'media:*', 'homepage:*', 'analytics:*', 'settings:*'],

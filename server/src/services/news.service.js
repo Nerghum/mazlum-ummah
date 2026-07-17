@@ -6,6 +6,7 @@ import { paginate } from '../utils/apiFeatures.js';
 import { makeShortCode, makeSlug } from '../utils/slug.js';
 import { sanitizeHtml } from '../utils/sanitize.js';
 import { resolveTags } from './tag.service.js';
+import { hasPermission } from '../config/roles.js';
 
 function localized(value) {
   if (typeof value === 'string') return { en: value, bn: '' };
@@ -74,8 +75,11 @@ async function uniqueShortUrl(currentId) {
   return `/${code}`;
 }
 
-export async function listNews(query) {
+export async function listNews(query, user) {
   const filter = {};
+  if (user && !hasPermission(user.role, 'news:*')) {
+    filter.author = user.id;
+  }
   if (query.status) filter.status = query.status;
   if (query.scheduled === 'true') {
     filter.status = 'Scheduled';
@@ -121,6 +125,9 @@ export async function createNews(payload, user) {
 export async function updateNews(id, payload, user) {
   const news = await News.findById(id);
   if (!news) throw new AppError('News not found', 404);
+  if (!hasPermission(user.role, 'news:*') && news.author.toString() !== user.id.toString()) {
+    throw new AppError('You can only update your own news', 403);
+  }
   const previousTitle = primaryTitle(news.title);
   const tags = await resolveTags(payload.tags, payload.tagNames);
   const nextStatus = payload.status || news.status;

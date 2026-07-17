@@ -5,22 +5,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../store/authSlice.js';
 import { hideToast, toggleTheme } from '../store/uiSlice.js';
 import { classNames } from '../utils/format.js';
+import { hasPermission } from '../utils/roles.js';
 
 const navItems = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/news', label: 'News', icon: FileText, children: [{ to: '/news', label: 'News list' }, { to: '/news-categories', label: 'Categories' }] },
-  { to: '/blogs', label: 'Blogs', icon: BookOpenText, children: [{ to: '/blogs', label: 'Blog list' }, { to: '/blog-categories', label: 'Categories' }] },
-  { to: '/media-achievements', label: 'Media Achievements', icon: Images },
-  { to: '/social-posts', label: 'Social Posts', icon: MessageSquareText },
-  { to: '/notices', label: 'Notices', icon: Megaphone },
-  { to: '/advertisements', label: 'Ads Management', icon: BadgeDollarSign },
-  { to: '/media', label: 'Media Library', icon: Images },
-  { to: '/homepage', label: 'Homepage Builder', icon: Home },
-  { to: '/menus', label: 'Header Menu', icon: Menu },
-  { to: '/faqs', label: 'FAQs', icon: HelpCircle },
-  { to: '/analytics', label: 'Analytics', icon: BarChart3 },
-  { to: '/users', label: 'Users', icon: Users },
-  { to: '/settings', label: 'Settings', icon: Settings }
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, permission: 'dashboard:read' },
+  { to: '/news', label: 'News', icon: FileText, permission: 'news:read', children: [{ to: '/news', label: 'News list' }, { to: '/news-categories', label: 'Categories', permission: 'category:read' }] },
+  { to: '/blogs', label: 'Blogs', icon: BookOpenText, permission: 'blog:read', children: [{ to: '/blogs', label: 'Blog list' }, { to: '/blog-categories', label: 'Categories', permission: 'category:read' }] },
+  { to: '/media-achievements', label: 'Media Achievements', icon: Images, permission: 'mediaAchievement:read' },
+  { to: '/social-posts', label: 'Social Posts', icon: MessageSquareText, permission: 'socialPost:read' },
+  { to: '/notices', label: 'Notices', icon: Megaphone, permission: 'notice:read' },
+  { to: '/advertisements', label: 'Ads Management', icon: BadgeDollarSign, permission: 'advertisement:read' },
+  { to: '/media', label: 'Media Library', icon: Images, permission: 'media:read' },
+  { to: '/homepage', label: 'Homepage Builder', icon: Home, permission: 'homepage:update' },
+  { to: '/menus', label: 'Header Menu', icon: Menu, permission: 'menu:read' },
+  { to: '/faqs', label: 'FAQs', icon: HelpCircle, permission: 'faq:read' },
+  { to: '/analytics', label: 'Analytics', icon: BarChart3, permission: 'analytics:read' },
+  { to: '/users', label: 'Users', icon: Users, permission: 'user:read' },
+  { to: '/settings', label: 'Settings', icon: Settings, permission: 'settings:read' }
 ];
 
 export function AdminLayout() {
@@ -53,42 +54,46 @@ export function AdminLayout() {
             </button>
           </div>
           <nav className="space-y-1">
-            {navItems.map((item) => (
-              <div key={item.to}>
-                <NavLink
-                  to={item.to}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={({ isActive }) =>
-                    classNames(
-                      'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition',
-                      isActive ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-100' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-                    )
-                  }
-                >
-                  <item.icon size={18} />
-                  {item.label}
-                </NavLink>
-                {item.children && (
-                  <div className="mt-1 ml-6 space-y-1 border-l border-slate-200 pl-3 dark:border-slate-800">
-                    {item.children.map(child => (
-                      <NavLink
-                        key={child.to}
-                        to={child.to}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={({ isActive }) =>
-                          classNames(
-                            'block rounded-lg px-3 py-2 text-sm font-medium transition',
-                            isActive ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-100' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
-                          )
-                        }
-                      >
-                        {child.label}
-                      </NavLink>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+            {navItems
+              .filter((item) => !item.permission || hasPermission(user?.role, item.permission))
+              .map((item) => (
+                <div key={item.to}>
+                  <NavLink
+                    to={item.to}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={({ isActive }) =>
+                      classNames(
+                        'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition',
+                        isActive ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-100' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                      )
+                    }
+                  >
+                    <item.icon size={18} />
+                    {item.label}
+                  </NavLink>
+                  {item.children && (
+                    <div className="mt-1 ml-6 space-y-1 border-l border-slate-200 pl-3 dark:border-slate-800">
+                      {item.children
+                        .filter((child) => !child.permission || hasPermission(user?.role, child.permission))
+                        .map(child => (
+                          <NavLink
+                            key={child.to}
+                            to={child.to}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className={({ isActive }) =>
+                              classNames(
+                                'block rounded-lg px-3 py-2 text-sm font-medium transition',
+                                isActive ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-100' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                              )
+                            }
+                          >
+                            {child.label}
+                          </NavLink>
+                        ))}
+                    </div>
+                  )}
+                </div>
+              ))}
           </nav>
         </aside>
         <main className="flex min-h-screen flex-1 flex-col lg:pl-72">

@@ -6,6 +6,7 @@ import { paginate } from '../utils/apiFeatures.js';
 import { sanitizeHtml } from '../utils/sanitize.js';
 import { makeShortCode, makeSlug } from '../utils/slug.js';
 import { resolveTags } from './tag.service.js';
+import { hasPermission } from '../config/roles.js';
 
 function localized(value) {
   if (typeof value === 'string') return { en: value, bn: '' };
@@ -49,8 +50,11 @@ async function uniqueShortUrl(currentId) {
   return `/${code}`;
 }
 
-export async function listBlogs(query) {
+export async function listBlogs(query, user) {
   const filter = {};
+  if (user && !hasPermission(user.role, 'blog:*')) {
+    filter.author = user.id;
+  }
   if (query.status) filter.status = query.status;
   if (query.mainCategory) filter.mainCategory = query.mainCategory;
   if (query.language) filter.language = query.language;
@@ -88,6 +92,9 @@ export async function createBlog(payload, user) {
 export async function updateBlog(id, payload, user) {
   const blog = await Blog.findById(id);
   if (!blog) throw new AppError('Blog not found', 404);
+  if (!hasPermission(user.role, 'blog:*') && blog.author.toString() !== user.id.toString()) {
+    throw new AppError('You can only update your own blog', 403);
+  }
   const previousTitle = primaryTitle(blog.title);
   const tags = await resolveTags(payload.tags, payload.tagNames);
   Object.assign(blog, payload, {
