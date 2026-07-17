@@ -71,8 +71,8 @@ export function UsersPage() {
               )}
             </div>
             <FormField label="Name"><input className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('name')} /></FormField>
-            <FormField label="Email"><input className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('email')} /></FormField>
-            <FormField label={editingId ? "Password (leave blank to keep)" : "Password"}><input type="password" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('password')} /></FormField>
+            <FormField label="Email"><input className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" autoComplete="username" {...register('email')} /></FormField>
+            <FormField label={editingId ? "Password (leave blank to keep)" : "Password"}><input type="password" autoComplete="new-password" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('password')} /></FormField>
             <FormField label="Role"><select className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('role')}>{roles.map((role) => <option key={role}>{role}</option>)}</select></FormField>
             <div className="flex gap-2">
               <Button type="submit" className="flex-1">
