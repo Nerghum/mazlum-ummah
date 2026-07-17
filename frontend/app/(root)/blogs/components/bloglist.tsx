@@ -165,7 +165,7 @@ const BlogList = ({ categorySlug }: { categorySlug?: string }) => {
         )}
 
         <section className="gallery-grid">
-          {pageCards.map((card, idx) => renderCard(card, idx))}
+          {pageCards.slice(1).map((card, idx) => renderCard(card, idx))}
         </section>
 
         <nav
