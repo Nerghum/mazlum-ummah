@@ -179,8 +179,8 @@ export function NewsEditorPage() {
             <div className="flex items-center gap-2 font-semibold"><Languages size={18} /> Article language content</div>
             <div className="inline-flex rounded-lg border border-slate-200 p-1 dark:border-slate-700">
               {[
-                ['en', 'English'],
-                ['bn', 'বাংলা']
+                ['bn', 'বাংলা'],
+                ['en', 'English']
               ].map(([code, label]) => (
                 <button
                   key={code}

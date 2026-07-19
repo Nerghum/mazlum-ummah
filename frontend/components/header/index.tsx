@@ -25,6 +25,7 @@ const Header = () => {
   const [cmsNavItems, setCmsNavItems] = useState<HeaderNavItem[]>([]);
   const pathname = usePathname();
   const { locale, setLocale } = useLocale();
+  const [isDesktop, setIsDesktop] = useState(false);
   const t = useTranslations();
   const settings = useSiteSettings();
 
@@ -43,6 +44,15 @@ const Header = () => {
       mounted = false;
     };
   }, [locale]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 1390px)");
@@ -140,8 +150,8 @@ const Header = () => {
           } as React.CSSProperties
         }
       >
-        <div className="css-1fmauag">
-          {pathname !== "/" && (
+        <div className={`css-1fmauag ${!isDesktop && pathname !== "/" ? "has-back-button" : ""}`}>
+          {!isDesktop && pathname !== "/" && (
             <button
               className="header-back-btn"
               tabIndex={0}

@@ -1,9 +1,7 @@
 const staticAdPositions = [
   { value: 'home_banner', label: 'Home banner', size: '728x90' },
   { value: 'breaking_news_banner', label: 'Breaking news banner', size: '728x90' },
-  { value: 'page_banner', label: 'Page banner', size: '1200x400' },
   { value: 'news_list_inline', label: 'News list inline banner', size: '1544x500' },
-  { value: 'news_detail_top', label: 'News detail top', size: '728x90' },
   { value: 'news_detail_bottom', label: 'News detail bottom', size: '728x90' },
   { value: 'news_detail_sidebar', label: 'News detail sidebar', size: '300x250' },
   { value: 'blog_detail_sidebar', label: 'Blog detail sidebar', size: '300x250' },
@@ -12,7 +10,6 @@ const staticAdPositions = [
   { value: 'social_posts_page_banner', label: 'Social Posts page banner', size: '1200x400' },
   { value: 'notice_page_banner', label: 'Notice page banner', size: '1200x400' },
   { value: 'media_achievements_page_banner', label: 'Media Achievements page banner', size: '1200x400' },
-  { value: 'privacy_policy_page_banner', label: 'Privacy Policy page banner', size: '1200x400' },
   { value: 'terms_and_conditions_page_banner', label: 'Terms and Conditions page banner', size: '1200x400' },
   { value: 'get_involved_page_banner', label: 'Get Involved page banner', size: '1200x400' },
   { value: 'activities_page_banner', label: 'Activities page banner', size: '1200x400' },

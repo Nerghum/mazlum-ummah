@@ -93,6 +93,11 @@ export async function listNews(query, user) {
     if (query[key] !== undefined) filter[key] = query[key] === 'true';
   });
   if (query.categories) filter.categories = { $in: Array.isArray(query.categories) ? query.categories : [query.categories] };
+  if (query.dateFrom || query.dateTo) {
+    filter.publishDate = {};
+    if (query.dateFrom) filter.publishDate.$gte = new Date(query.dateFrom);
+    if (query.dateTo) filter.publishDate.$lte = new Date(query.dateTo);
+  }
   return paginate(News, filter, query, null, ['author', 'publishedBy', 'mainCategory', 'subCategory', 'categories', 'country', 'tags', 'thumbnailImage', 'imageGallery']);
 }
 

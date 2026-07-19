@@ -3,6 +3,8 @@
 import Image from "next/image";
 import PageBanner from "@/components/page-banner";
 import { useTranslations } from "@/hooks/use-translations";
+import { useLocale } from "@/hooks/use-locale";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 import "./style.css";
 
 type InfoPageKey =
@@ -28,36 +30,51 @@ type InfoPageContent = {
 
 const InfoPage = ({ pageKey }: { pageKey: InfoPageKey }) => {
   const t = useTranslations();
+  const { locale } = useLocale();
+  const settings = useSiteSettings();
   const pages = t("infoPages.pages") as Record<InfoPageKey, InfoPageContent>;
   const content = pages[pageKey];
+
+  const dynamicTitle = settings[`policy.${pageKey}.${locale}.title`] as string | undefined;
+  const dynamicSubtitle = settings[`policy.${pageKey}.${locale}.subtitle`] as string | undefined;
+  const dynamicContent = settings[`policy.${pageKey}.${locale}.content`] as string | undefined;
+  
+  const hasDynamicContent = dynamicContent && dynamicContent !== "<p><br></p>" && dynamicContent.trim() !== "";
 
   return (
     <>
       <PageBanner
-        title={content.title}
-        subtitle={content.summary}
+        title={dynamicTitle || content.title}
+        subtitle={dynamicSubtitle || content.summary}
         adPosition={`${pageKey}_page_banner`}
       />
       <section className="info-page">
         <div className="info-page__grid">
           <article className="info-page__main">
-            {content.sections.map((section) => (
-              <section key={section.heading} className="info-page__section">
-                <h2 className="info-page__heading">{section.heading}</h2>
-                {section.paragraphs.map((paragraph) => (
-                  <p key={paragraph} className="info-page__text">
-                    {paragraph}
-                  </p>
-                ))}
-                {section.items && (
-                  <ul className="info-page__list">
-                    {section.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                )}
-              </section>
-            ))}
+            {hasDynamicContent ? (
+              <div 
+                className="info-page__dynamic-content"
+                dangerouslySetInnerHTML={{ __html: dynamicContent }}
+              />
+            ) : (
+              content.sections.map((section) => (
+                <section key={section.heading} className="info-page__section">
+                  <h2 className="info-page__heading">{section.heading}</h2>
+                  {section.paragraphs.map((paragraph) => (
+                    <p key={paragraph} className="info-page__text">
+                      {paragraph}
+                    </p>
+                  ))}
+                  {section.items && (
+                    <ul className="info-page__list">
+                      {section.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </section>
+              ))
+            )}
           </article>
 
           <aside className="info-page__sidebar" aria-label="Related information">

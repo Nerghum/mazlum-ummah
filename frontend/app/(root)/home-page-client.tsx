@@ -55,6 +55,14 @@ const HomePageClient = ({
 
   const orderedSections = useMemo(() => sections.filter((section) => section.isActive !== false).sort((a, b) => (a.order || 0) - (b.order || 0)), [sections]);
 
+  const { todayStart, todayEnd } = useMemo(() => {
+    const now = new Date();
+    return {
+      todayStart: new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString(),
+      todayEnd: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).toISOString()
+    };
+  }, []);
+
   if (orderedSections.length) {
     return (
       <>
@@ -93,8 +101,22 @@ const HomePageClient = ({
           }
 
           if (section.type === "Today's News") {
+            if (mode === "manual" && section.news?.length) {
+              const todaysPosts = section.news.filter(post => {
+                if (!post.publishDate) return false;
+                const d = new Date(post.publishDate);
+                const now = new Date();
+                return d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+              });
+              if (todaysPosts.length === 0) return null;
+              return <NewsSection key={section._id} title={sectionTitle || t("home.todayNews")} seeMore={false} items={cardList(todaysPosts, locale, "/news/general", limit)} />;
+            }
+            return <NewsSection key={section._id} title={sectionTitle || t("home.todayNews")} seeMore={false} fetchOptions={{ dateFrom: todayStart, dateTo: todayEnd }} />;
+          }
+
+          if (section.type === "Latest News") {
             const items = mode === "manual" && section.news?.length ? cardList(section.news, locale, "/news/general", limit) : undefined;
-            return <NewsSection key={section._id} title={sectionTitle || t("home.todayNews")} seeMore={false} items={items} />;
+            return <NewsSection key={section._id} title={sectionTitle || t("home.latestNews")} seeMore={true} items={items} fetchOptions={{ sort: "-updatedAt" }} />;
           }
 
           if (["Featured News", "Most Read", "Editor Picks", "Trending News", "Country-wise News"].includes(section.type)) {
@@ -159,7 +181,8 @@ const HomePageClient = ({
     <>
       <HomeHero title={t("hero.title")} />
       <BreakingNews />
-      <NewsSection title={t("home.todayNews")} seeMore={false} />
+      <NewsSection title={t("home.todayNews")} seeMore={false} fetchOptions={{ dateFrom: todayStart, dateTo: todayEnd }} />
+      <NewsSection title={t("home.latestNews")} seeMore={true} fetchOptions={{ sort: "-updatedAt" }} />
       <CrisisStats />
       <NewsSection title={t("home.sudan")} slug="sudan" />
       <AdBanner />

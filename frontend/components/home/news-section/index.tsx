@@ -17,11 +17,13 @@ const NewsSection = ({
   slug,
   seeMore = true,
   items,
+  fetchOptions,
 }: {
   title: string;
   slug?: string;
   seeMore?: boolean;
   items?: CardItem[];
+  fetchOptions?: import("@/lib/cms").FetchNewsOptions;
 }) => {
   const t = useTranslations();
   const { locale } = useLocale();
@@ -35,17 +37,21 @@ const NewsSection = ({
       return;
     }
     setIsLoading(true);
-    fetchNews({ limit: 12, categorySlug: slug === "general" ? undefined : slug })
+    fetchNews({ limit: 12, categorySlug: slug === "general" ? undefined : slug, ...fetchOptions })
       .then((posts) => {
         setDynamicCards(posts.map((post, index) => postToCard(post, locale, `/news/${slug}`, index)));
       })
       .finally(() => setIsLoading(false));
-  }, [items, locale, slug]);
+  }, [items, locale, slug, fetchOptions]);
 
   const cards = (items || dynamicCards).slice(0, 5);
 
   if (isLoading) {
     return <SkeletonHomeNewsSection />;
+  }
+  
+  if (cards.length === 0) {
+    return null;
   }
 
   return (

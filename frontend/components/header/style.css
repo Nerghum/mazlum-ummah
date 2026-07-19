@@ -96,7 +96,7 @@ body.sidebar-open {
   margin-right: auto;
   padding: 14px 16px !important;
   display: flex;
-  gap: 16px;
+  gap: 8px;
 }
 
 @media (min-width: 600px) {
@@ -127,7 +127,7 @@ body.sidebar-open {
 }
 
 .css-15br4hf {
-  margin: 0px 1.25rem 0px 0px;
+  margin: 0;
   font: inherit;
   letter-spacing: inherit;
   overflow-wrap: break-word;
@@ -504,6 +504,14 @@ body.sidebar-open {
 @media (max-width: 599px) {
   .css-e5b6qv {
     color: #ffffff;
+    border-radius: 0;
+    height: 64px;
+    width: 64px;
+    margin: -14px -16px -14px 0;
+    padding: 0 !important;
+  }
+  .css-e5b6qv:hover {
+    background-color: #c62e2e;
   }
   .css-e5b6qv .css-9u7c9c path {
     stroke: #ffffff;
@@ -556,6 +564,14 @@ body.sidebar-open {
 @media (max-width: 599px) {
   .header-back-btn {
     color: #ffffff;
+    border-radius: 0;
+    height: 64px;
+    width: 64px;
+    margin: -14px 0 -14px -18px;
+    padding: 0 !important;
+  }
+  .header-back-btn:hover {
+    background-color: #c62e2e;
   }
 }
 
@@ -567,7 +583,7 @@ body.sidebar-open {
 
 @media (min-width: 1024px) {
   .header-back-btn {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -1550,12 +1566,9 @@ body.sidebar-open {
 }
 
 .social-icons-wrapper img {
-  object-fit: contain;
-}
-
-.social-icons-wrapper .social-icon-png {
   width: 24px;
   height: 24px;
+  object-fit: contain;
 }
 
 .social-icon-svg {

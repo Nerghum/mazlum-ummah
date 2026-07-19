@@ -15,6 +15,7 @@ const sectionTypes = [
   'Hero Slider',
   'Breaking News',
   "Today's News",
+  'Latest News',
   'Manual Cards',
   'News Categories',
   'Blog Categories',
@@ -26,6 +27,7 @@ const sectionHints = {
   'Hero Slider': 'Select Source (News or Blogs) and Mode (Auto or Manual). You can also add custom manual slides which will appear first.',
   'Breaking News': 'Select breaking news manually, or automatically use latest breaking news.',
   "Today's News": 'Manual ordered news, or automatic latest news.',
+  'Latest News': 'Manual ordered news, or automatic latest news.',
   'Manual Cards': 'Create custom cards for the humanitarian crisis area.',
   'News Categories': 'Add categories, then choose manual news or automatic latest news per category.',
   'Blog Categories': 'Add categories, then choose manual blogs or automatic latest blogs per category.',
@@ -37,6 +39,7 @@ const defaultSectionTitles = {
   'Hero Slider': { en: 'Hero Slider', bn: 'হিরো স্লাইডার' },
   'Breaking News': { en: 'Breaking News', bn: 'ব্রেকিং নিউজ' },
   "Today's News": { en: "Today's News", bn: 'আজকের সংবাদ' },
+  'Latest News': { en: 'Latest News', bn: 'সর্বশেষ সংবাদ' },
   'Manual Cards': { en: 'Humanitarian Crisis', bn: 'মানবিক সংকট' },
   'News Categories': { en: 'News Categories', bn: 'সংবাদ বিভাগ' },
   'Blog Categories': { en: 'Blog Categories', bn: 'ব্লগ বিভাগ' },
@@ -576,7 +579,7 @@ export function HomepageBuilderPage() {
                       <p className="mt-2 mb-4 text-xs text-slate-500">{sectionHints[section.type]}</p>
 
                       <div className="grid gap-4">
-                        {['Breaking News', "Today's News", 'Video News'].includes(section.type) && (
+                        {['Breaking News', "Today's News", 'Latest News', 'Video News'].includes(section.type) && (
                           <ItemDropZone section={section} collection="news" label="Manual News Selection" />
                         )}
 

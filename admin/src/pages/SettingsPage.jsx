@@ -7,6 +7,7 @@ import { Card } from '../components/Card.jsx';
 import { FormField } from '../components/FormField.jsx';
 import { MediaImageField, mediaId } from '../components/MediaPicker.jsx';
 import { PageHeader } from '../components/PageHeader.jsx';
+import { RichTextEditor } from '../components/RichTextEditor.jsx';
 import { api } from '../services/api.js';
 import { showToast } from '../store/uiSlice.js';
 
@@ -46,6 +47,13 @@ export function SettingsPage() {
         smtpPort: '587',
         smtpUser: '',
         smtpPass: ''
+      },
+      policy: {
+        externalLinks: { bn: { title: '', subtitle: '', content: '' }, en: { title: '', subtitle: '', content: '' } },
+        mazlumPolicy: { bn: { title: '', subtitle: '', content: '' }, en: { title: '', subtitle: '', content: '' } },
+        privacy: { bn: { title: '', subtitle: '', content: '' }, en: { title: '', subtitle: '', content: '' } },
+        cookies: { bn: { title: '', subtitle: '', content: '' }, en: { title: '', subtitle: '', content: '' } },
+        copyright: { bn: { title: '', subtitle: '', content: '' }, en: { title: '', subtitle: '', content: '' } }
       }
     }
   });
@@ -189,6 +197,79 @@ export function SettingsPage() {
             <FormField label="SMTP Password">
               <input type="password" placeholder="••••••••" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('contact.smtpPass')} />
             </FormField>
+          </div>
+        </Card>
+
+        <Card className="p-5">
+          <div className="mb-6">
+            <h2 className="font-semibold">Static Pages (Policies)</h2>
+          </div>
+          
+          <div className="space-y-8">
+            {[
+              { key: 'externalLinks', label: 'External Links Policy' },
+              { key: 'mazlumPolicy', label: 'Mazlum Ummah Policy' },
+              { key: 'privacy', label: 'Privacy Policy' },
+              { key: 'cookies', label: 'Cookies' },
+              { key: 'copyright', label: 'Copyright Policy' }
+            ].map((policy) => (
+              <div key={policy.key} className="p-4 border rounded-lg dark:border-slate-800">
+                <h3 className="font-medium mb-4 text-slate-700 dark:text-slate-300">{policy.label}</h3>
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                  {/* Bangla Column (Left) */}
+                  <div className="space-y-4 border-r-0 xl:border-r border-slate-200 dark:border-slate-800 pr-0 xl:pr-6">
+                    <h4 className="font-semibold text-sm text-slate-500 mb-2">Bangla</h4>
+                    <FormField label="Page Title">
+                      <input className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register(`policy.${policy.key}.bn.title`)} />
+                    </FormField>
+                    <FormField label="Page Subtitle">
+                      <textarea rows={2} className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register(`policy.${policy.key}.bn.subtitle`)} />
+                    </FormField>
+                    <FormField label="Page Content">
+                      <Controller
+                        name={`policy.${policy.key}.bn.content`}
+                        control={control}
+                        render={({ field }) => (
+                          <RichTextEditor
+                            key={`policy-${policy.key}-bn`}
+                            value={field.value}
+                            onChange={field.onChange}
+                            dir="auto"
+                            lang="bn"
+                          />
+                        )}
+                      />
+                    </FormField>
+                  </div>
+                  
+                  {/* English Column (Right) */}
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-sm text-slate-500 mb-2">English</h4>
+                    <FormField label="Page Title">
+                      <input className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register(`policy.${policy.key}.en.title`)} />
+                    </FormField>
+                    <FormField label="Page Subtitle">
+                      <textarea rows={2} className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register(`policy.${policy.key}.en.subtitle`)} />
+                    </FormField>
+                    <FormField label="Page Content">
+                      <Controller
+                        name={`policy.${policy.key}.en.content`}
+                        control={control}
+                        render={({ field }) => (
+                          <RichTextEditor
+                            key={`policy-${policy.key}-en`}
+                            value={field.value}
+                            onChange={field.onChange}
+                            dir="ltr"
+                            lang="en"
+                          />
+                        )}
+                      />
+                    </FormField>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </Card>
 

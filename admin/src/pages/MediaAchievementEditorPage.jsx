@@ -149,7 +149,7 @@ export function MediaAchievementEditorPage() {
           <div className="mb-5 flex items-center justify-between gap-3 border-b border-slate-200 pb-4 dark:border-slate-800">
             <div className="flex items-center gap-2 font-semibold"><Languages size={18} /> Achievement language content</div>
             <div className="inline-flex rounded-lg border border-slate-200 p-1 dark:border-slate-700">
-              {[['en', 'English'], ['bn', 'বাংলা']].map(([code, label]) => (
+              {[['bn', 'বাংলা'], ['en', 'English']].map(([code, label]) => (
                 <button key={code} type="button" className={`rounded-md px-3 py-1.5 text-sm font-semibold ${activeLang === code ? 'bg-brand-600 text-white' : 'text-slate-600 dark:text-slate-300'}`} onClick={() => setActiveLang(code)}>
                   {label}
                 </button>

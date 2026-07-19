@@ -123,6 +123,7 @@ export type CmsHomepageSection = {
     | "Hero Slider"
     | "Breaking News"
     | "Today's News"
+    | "Latest News"
     | "Manual Cards"
     | "News Categories"
     | "Blog Categories"
@@ -323,7 +324,7 @@ export type FetchNewsOptions = {
   featuredNews?: boolean;
   dateFrom?: string;
   dateTo?: string;
-  sort?: "views" | "latest";
+  sort?: "views" | "latest" | "-updatedAt";
 };
 
 export async function fetchNews(options: number | FetchNewsOptions = 48) {

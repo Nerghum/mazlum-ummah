@@ -70,7 +70,12 @@ router.get('/settings', asyncHandler(async (_req, res) => {
     'site.instagramUrl',
     'site.whatsappUrl'
   ];
-  const settings = await Setting.find({ key: { $in: allowedKeys } }).lean();
+  const settings = await Setting.find({
+    $or: [
+      { key: { $in: allowedKeys } },
+      { key: /^policy\./ }
+    ]
+  }).lean();
   const data = settings.reduce((items, item) => ({ ...items, [item.key]: item.value }), {});
   const mediaKeys = ['site.logo', 'site.favicon'];
   const mediaIds = mediaKeys.map((key) => data[key]).filter(Boolean);
