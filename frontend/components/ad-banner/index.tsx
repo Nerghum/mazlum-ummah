@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "@/components/ui/blur-image";
+import Image from "next/image";
 import AdSlot from "@/components/ad-slot";
 import "./style.css";
 
