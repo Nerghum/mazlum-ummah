@@ -192,6 +192,7 @@ export type CmsSiteSettings = {
   "site.linkedinUrl"?: string;
   "site.instagramUrl"?: string;
   "site.whatsappUrl"?: string;
+  [key: string]: any;
 };
 
 export type CardItem = {
