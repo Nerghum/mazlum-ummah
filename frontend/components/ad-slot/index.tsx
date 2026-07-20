@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactNode, useEffect, useState } from "react";
-import { CmsAd, adImageUrl, fetchAds } from "@/lib/cms";
+import { CmsAd, adImageUrl, fetchAds, mediaUrl } from "@/lib/cms";
 
 type AdSlotProps = {
   position: string;
@@ -22,14 +22,26 @@ const AdSlot = ({ position, className, imageClassName, width = 728, height = 90,
   if (ad === undefined) return fallback ? <>{fallback}</> : null;
   if (!ad?.media?.url) return fallback ? <>{fallback}</> : null;
 
+  const desktopSrc = adImageUrl(ad);
+  const mobileSrc = ad.mobileMedia?.url ? mediaUrl(ad.mobileMedia) : desktopSrc;
+
   const image = (
-    <img
-      src={adImageUrl(ad)}
-      alt={ad.altText || ad.title || "Advertisement"}
-      className={imageClassName}
-      width={width}
-      height={height}
-    />
+    <>
+      <img
+        src={desktopSrc}
+        alt={ad.altText || ad.title || "Advertisement"}
+        className={`${imageClassName || ""} ad-banner-desktop`.trim()}
+        width={width}
+        height={height}
+      />
+      <img
+        src={mobileSrc}
+        alt={ad.altText || ad.title || "Advertisement mobile"}
+        className={`${imageClassName || ""} ad-banner-mobile`.trim()}
+        width={width}
+        height={height}
+      />
+    </>
   );
 
   let href = ad.targetUrl || "";

@@ -60,7 +60,7 @@ const HomeHero = ({ title, slides: providedSlides }: HomeHeroProps) => {
             key={index}
             className="hero-slide"
             style={{
-              backgroundImage: `linear-gradient(98deg, rgba(0, 0, 0, 0.9) 30%, rgba(0, 0, 0, 0.02) 100%), url("${slide.bgImage}")`,
+              backgroundImage: `linear-gradient(90deg, #000000, #0f172a00, #00000000), url("${slide.bgImage}")`,
               opacity: index === current ? 1 : 0,
               zIndex: index === current ? 1 : 0,
             }}
@@ -70,7 +70,7 @@ const HomeHero = ({ title, slides: providedSlides }: HomeHeroProps) => {
                 <div className="hero-text-wrapper">
                   <div className="hero-title-row">
                     <div className="hero-title-wrapper">
-                      <h1 className="hero-title">{slideTitle}</h1>
+                      <h1 className="home-hero-title">{slideTitle}</h1>
                     </div>
                   </div>
                   <div className="hero-actions">

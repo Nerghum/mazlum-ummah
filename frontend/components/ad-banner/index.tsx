@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import Image from "@/components/ui/blur-image";
 import AdSlot from "@/components/ad-slot";
 import "./style.css";
 
@@ -13,7 +13,16 @@ const fallback = (
           alt="Advertisement"
           width={728}
           height={90}
-          style={{ width: "100%", height: "100%" }}
+          className="ad-banner-desktop"
+          unoptimized
+        />
+        <Image
+          src="/mobile-ad.jpeg"
+          alt="Advertisement mobile"
+          width={320}
+          height={100}
+          className="ad-banner-mobile"
+          unoptimized
         />
       </a>
     </div>

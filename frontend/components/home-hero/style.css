@@ -29,21 +29,21 @@
 .hero-overlay {
   height: 100%;
   width: 100%;
-  background: linear-gradient(98deg, rgb(0 0 0 / 50%) 30%, rgba(0, 0, 0, 0.02) 100%);
   z-index: 0;
 }
 
 @media (min-width: 0px) {
   .hero-overlay {
-    padding: 1.25rem;
+    padding: calc(1.25rem + var(--layout-header-mobile-height, 64px)) 1.25rem 2.5rem 1.25rem;
   }
 }
 
 @media (min-width: 800px) {
   .hero-overlay {
-    padding: 1.5rem;
+    padding: calc(1.5rem + var(--layout-header-desktop-height, 80px)) 1.5rem 2.5rem 1.5rem;
   }
 }
+
 
 
 .hero-content {
@@ -52,18 +52,7 @@
   align-items: center;
   height: 100%;
   width: 100%;
-  max-width: 1170px;
-  margin-left: auto;
-  margin-right: auto;
   z-index: 1;
-}
-
-@media (min-width: 0px) {
-  .hero-content {
-    justify-content: center;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  }
 }
 
 @media (min-width: 600px) {
@@ -72,23 +61,30 @@
   }
 }
 
+@media (min-width: 0px) {
+  .hero-content {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 600px) {
+  .hero-content {
+    max-width: 73.125rem;
+    margin: auto;
+  }
+}
+
 @media (min-width: 800px) {
   .hero-content {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    max-width: 73.125rem;
+    margin: auto;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-content {
-    justify-content: space-between;
-  }
-}
-
-@media (min-width: 1390px) {
-  .hero-content {
-    padding-left: 0;
-    padding-right: 0;
+    justify-content: flex-start;
+    max-width: 73.125rem;
   }
 }
 
@@ -119,32 +115,37 @@
 @media (min-width: 1024px) {
   .hero-title-row {
     margin-bottom: 2rem;
-    max-width: 50rem;
+    max-width: 50%;
   }
 }
 
-.hero-title {
+.home-hero-title {
   margin: 0px;
   font-weight: 700;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   overflow-wrap: break-word;
-  line-height: 1;
+  line-height: 1.4;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-@media (min-width: 0px) {
-  .hero-title {
-    font-size: 2rem;
+@media (min-width: 640px) {
+  .home-hero-title {
+    -webkit-line-clamp: 2;
   }
 }
 
 @media (min-width: 800px) {
-  .hero-title {
-    font-size: 2.5rem;
+  .home-hero-title {
+    font-size: 2rem;
   }
 }
 
 @media (min-width: 1024px) {
-  .hero-title {
+  .home-hero-title {
     font-size: 2.5rem;
   }
 }
@@ -314,7 +315,9 @@
   background: transparent;
   cursor: pointer;
   padding: 0;
-  transition: background-color 0.3s, border-color 0.3s;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
 }
 
 .hero-dot.active {

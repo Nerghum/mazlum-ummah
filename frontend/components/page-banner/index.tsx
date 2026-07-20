@@ -86,7 +86,7 @@ const PageBanner = ({
 
     const className = "page-banner__ad-img page-banner__ad-img-desktop";
     const mobileClassName = "page-banner__ad-img page-banner__ad-img-mobile";
-    const mobileSrc = (showFallbackAd && !hasAd) ? "/mobile-ad.jpeg" : src; // simple fallback logic
+    const mobileSrc = (hasAd && ad.mobileMedia?.url) ? mediaUrl(ad.mobileMedia) : ((showFallbackAd && !hasAd) ? "/mobile-ad.jpeg" : src);
 
     const renderImg = (isDesktop: boolean) => (
       <Image
