@@ -276,7 +276,7 @@ export function SettingsPage() {
         <Button type="submit" loading={saving}><Save size={16} /> Save settings</Button>
       </form>
       
-      <div className="mt-8">
+      <div className="mt-8 hidden">
         <Card className="p-5 border-red-200 dark:border-red-900/50">
           <h2 className="mb-2 font-semibold text-red-600 dark:text-red-400">Data Management</h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
