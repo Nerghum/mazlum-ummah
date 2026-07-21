@@ -19,12 +19,19 @@ import { normalizeHomepageSection } from '../utils/homepageTitle.js';
 const router = Router();
 
 function visiblePublishedFilter(extra = {}) {
+  const now = new Date();
+  const nowString = now.toISOString();
   return {
     ...extra,
     status: 'Published',
     $and: [
       ...(extra.$and || []),
-      { $or: [{ publishDate: { $exists: false } }, { publishDate: null }, { publishDate: { $lte: new Date() } }] }
+      { $or: [
+        { publishDate: { $exists: false } }, 
+        { publishDate: null }, 
+        { publishDate: { $lte: now } },
+        { publishDate: { $type: 'string', $lte: nowString } }
+      ] }
     ]
   };
 }

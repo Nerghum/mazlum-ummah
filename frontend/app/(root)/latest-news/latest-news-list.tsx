@@ -100,7 +100,7 @@ const LatestNewsList = () => {
       );
 
       if (!mounted) return;
-      setSections(nextSections.filter((section) => section.cards.length));
+      setSections(nextSections.filter((section) => section.cards.length > 0));
       setLoading(false);
     }
 

@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
-import Setting from './src/models/Setting.js';
+import News from './src/models/News.js';
 
-async function run() {
-  await mongoose.connect('mongodb://localhost:27017/mazlumummah2');
-  const settings = await Setting.find().lean();
-  console.log(settings.map(s => ({ key: s.key, value: s.value })));
-  process.exit(0);
-}
-run();
+await mongoose.connect('mongodb://root:rootpassword@localhost:27017/newspaper_cms?authSource=admin');
+
+const news = await News.find().select('title slug status publishDate').lean();
+console.log('News:', JSON.stringify(news, null, 2));
+
+mongoose.disconnect();

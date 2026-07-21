@@ -53,7 +53,7 @@ export function AdminLayout() {
           <div className="mb-8 flex items-center justify-between px-3">
             <div>
               <div className="text-xl font-bold text-slate-950 dark:text-white">Newsroom CMS</div>
-              <div className="text-sm text-slate-500">TailAdmin Console</div>
+              <div className="text-sm text-slate-500">Mazlum Ummah Admin Console</div>
             </div>
             <button className="lg:hidden text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200" onClick={() => setIsMobileMenuOpen(false)}>
               <X size={24} />

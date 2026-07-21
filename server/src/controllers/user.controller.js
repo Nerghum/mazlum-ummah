@@ -24,12 +24,29 @@ export const create = asyncHandler(async (req, res) => {
 export const update = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select('+password');
   if (!user) throw new AppError('User not found', 404);
+  
+  if (user.role === 'Super Admin') {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ['password'];
+    const isAllowed = updates.every((update) => allowedUpdates.includes(update));
+    if (!isAllowed) {
+      throw new AppError('Super Admin details cannot be edited, only password can be changed', 403);
+    }
+  }
+
   Object.assign(user, req.body);
   await user.save();
   res.json({ success: true, data: publicUser(user) });
 });
 
 export const remove = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) throw new AppError('User not found', 404);
+  
+  if (user.role === 'Super Admin') {
+    throw new AppError('Super Admin cannot be deleted', 403);
+  }
+
   await User.findByIdAndDelete(req.params.id);
   res.status(204).send();
 });

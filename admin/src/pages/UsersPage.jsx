@@ -18,10 +18,20 @@ export function UsersPage() {
   const [notification, setNotification] = useState('');
   const { register, handleSubmit, reset } = useForm({ defaultValues });
 
+  const editingUser = data?.find(r => r._id === editingId);
+  const isEditingSuperAdmin = editingUser?.role === 'Super Admin';
+
   async function save(values) {
     if (editingId) {
       const payload = { ...values };
       if (!payload.password) delete payload.password;
+      
+      if (isEditingSuperAdmin) {
+        Object.keys(payload).forEach(key => {
+          if (key !== 'password') delete payload[key];
+        });
+      }
+
       await api.put(`/users/${editingId}`, payload);
       setNotification('User updated successfully');
     } else {
@@ -70,10 +80,10 @@ export function UsersPage() {
                 </button>
               )}
             </div>
-            <FormField label="Name"><input className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('name')} /></FormField>
-            <FormField label="Email"><input className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('email')} /></FormField>
+            <FormField label="Name"><input disabled={isEditingSuperAdmin} className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950 disabled:opacity-50 disabled:cursor-not-allowed" {...register('name')} /></FormField>
+            <FormField label="Email"><input disabled={isEditingSuperAdmin} className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950 disabled:opacity-50 disabled:cursor-not-allowed" {...register('email')} /></FormField>
             <FormField label={editingId ? "Password (leave blank to keep)" : "Password"}><input type="password" className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('password')} /></FormField>
-            <FormField label="Role"><select className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" {...register('role')}>{roles.map((role) => <option key={role}>{role}</option>)}</select></FormField>
+            <FormField label="Role"><select disabled={isEditingSuperAdmin} className="w-full rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950 disabled:opacity-50 disabled:cursor-not-allowed" {...register('role')}>{roles.map((role) => <option key={role}>{role}</option>)}</select></FormField>
             <div className="flex gap-2">
               <Button type="submit" className="flex-1">
                 {editingId ? <><Edit size={16} /> Update user</> : <><Plus size={16} /> Add user</>}
@@ -95,7 +105,9 @@ export function UsersPage() {
               render: (row) => (
                 <div className="flex items-center gap-2">
                   <button onClick={() => handleEdit(row)} className="text-brand-600 hover:text-brand-700 p-1"><Edit size={16} /></button>
-                  <button onClick={() => handleDelete(row._id)} className="text-red-600 hover:text-red-700 p-1"><Trash2 size={16} /></button>
+                  {row.role !== 'Super Admin' && (
+                    <button onClick={() => handleDelete(row._id)} className="text-red-600 hover:text-red-700 p-1"><Trash2 size={16} /></button>
+                  )}
                 </div>
               ) 
             }

@@ -11,9 +11,10 @@ import { newsPreviewUrl } from '../utils/preview.js';
 import { localizedValue } from '../utils/localized.js';
 
 export function NewsListPage() {
-  const [filters, setFilters] = useState({ search: '', status: '' });
+  const [filters, setFilters] = useState({ search: '', status: '', categories: '' });
   const [selected, setSelected] = useState([]);
   const { data, loading, reload } = useApiResource('/news', filters);
+  const { data: categories } = useApiResource('/categories', { type: 'news', limit: 1000 });
 
   function toggle(id) {
     setSelected((items) => (items.includes(id) ? items.filter((item) => item !== id) : [...items, id]));
@@ -43,6 +44,10 @@ export function NewsListPage() {
       />
       <div className="mb-4 flex flex-wrap gap-2">
         <input placeholder="Search news" className="rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" value={filters.search} onChange={(event) => setFilters({ ...filters, search: event.target.value })} />
+        <select className="rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" value={filters.categories} onChange={(event) => setFilters({ ...filters, categories: event.target.value })}>
+          <option value="">All categories</option>
+          {categories?.map((c) => <option key={c._id} value={c._id}>{c.name || c.nameBn}</option>)}
+        </select>
         <select className="rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" value={filters.status} onChange={(event) => setFilters({ ...filters, status: event.target.value })}>
           <option value="">All status</option><option>Draft</option><option>Pending</option><option>Scheduled</option><option>Published</option><option>Archived</option>
         </select>
