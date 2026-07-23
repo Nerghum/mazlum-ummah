@@ -66,7 +66,7 @@ export function SubscriberListPage() {
           onChange={(event) => setFilters({ ...filters, search: event.target.value })} 
         />
       </div>
-      <DataTable columns={columns} data={data} loading={loading} />
+      <DataTable columns={columns} rows={data || []} loading={loading} />
     </>
   );
 }

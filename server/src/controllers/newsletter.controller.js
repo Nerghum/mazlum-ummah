@@ -56,12 +56,14 @@ export const getSubscribers = async (req, res) => {
 
     res.json({
       success: true,
-      data: subscribers,
-      meta: {
-        total,
-        page,
-        limit,
-        pages: Math.ceil(total / limit)
+      data: {
+        items: subscribers,
+        meta: {
+          total,
+          page,
+          limit,
+          pages: Math.ceil(total / limit)
+        }
       }
     });
   } catch (error) {
