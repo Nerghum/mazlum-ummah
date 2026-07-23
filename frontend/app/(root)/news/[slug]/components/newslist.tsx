@@ -9,7 +9,7 @@ import "./style.css";
 import Link from "next/link";
 import AdSlot from "@/components/ad-slot";
 import { useTranslations } from "@/hooks/use-translations";
-import { CardItem, fetchNews, postToCard } from "@/lib/cms";
+import { CardItem, fetchNews, postToCard, fetchCategory, categoryName } from "@/lib/cms";
 import { useLocale } from "@/hooks/use-locale";
 import PageBanner from "@/components/page-banner";
 import PageBannerSkeleton from "@/components/page-banner/page-banner.skeleton";
@@ -99,13 +99,22 @@ const NewsList = ({ slug }: { slug: string }) => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [dynamicCards, setDynamicCards] = useState<CardItem[]>([]);
+  const [categoryNameText, setCategoryNameText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
-    fetchNews({ limit: 72, categorySlug: slug })
-      .then((posts) => {
+    Promise.all([
+      fetchNews({ limit: 72, categorySlug: slug }),
+      fetchCategory("news", slug)
+    ])
+      .then(([posts, category]) => {
         setDynamicCards(posts.map((post, index) => postToCard(post, locale, `/news/${slug}`, index)));
+        if (category) {
+          setCategoryNameText(categoryName(category, locale));
+        } else {
+          setCategoryNameText(slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, " "));
+        }
         setCurrentPage(1);
       })
       .finally(() => setIsLoading(false));
@@ -140,14 +149,10 @@ const NewsList = ({ slug }: { slug: string }) => {
     );
   }
 
-  const titleKey = `news.${slug === "sudan" ? "sudanTitle" : slug === "gaza" ? "gazaTitle" : slug === "middle-east" ? "middleEastTitle" : slug === "africa" ? "africaTitle" : "defaultTitle"}`;
-  const subtitleKey = `news.${slug === "sudan" ? "sudanSubtitle" : slug === "gaza" ? "gazaSubtitle" : slug === "middle-east" ? "middleEastSubtitle" : slug === "africa" ? "africaSubtitle" : "defaultSubtitle"}`;
-
   return (
     <>
       <PageBanner 
-        title={t(titleKey)} 
-        subtitle={t(subtitleKey)} 
+        title={categoryNameText} 
         categoryType="news" 
         categorySlug={slug} 
         adPosition={`news_category_${slug}_banner`}
@@ -155,10 +160,7 @@ const NewsList = ({ slug }: { slug: string }) => {
       <section className="MuiBox-root css-1vhc6zl">
       <div className="MuiBox-root css-fm5laq">
         <h1 className="news-section-title">
-          {t(
-            `news.categories.${slug === "sudan" ? "sudan" : slug === "gaza" ? "gaza" : slug === "middle-east" ? "middleEast" : slug === "africa" ? "africa" : "sudan"}`
-          )}{" "}
-          {t("news.defaultTitle")}
+          {categoryNameText}
         </h1>
         <div className="news-toolbar-right">
           <div className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-6bd2iw">
