@@ -7,7 +7,7 @@
     "share": "Share",
     "donate": "Donate",
     "volunteer": "Become a Volunteer",
-    "subscribe": "Subscribe",
+    "subscribe": "Subscribe", "success": "Thank you for subscribing!", "error": "An error occurred. Please try again.",
     "send": "Send",
     "search": "Search",
     "date": "Date",
@@ -84,7 +84,7 @@
   "newsletter": {
     "heading": "Subscribe to receive regular newsletters",
     "emailPlaceholder": "Enter your email",
-    "subscribe": "Subscribe"
+    "subscribe": "Subscribe", "success": "Thank you for subscribing!", "error": "An error occurred. Please try again."
   },
   "crisis": {
     "heading": "Ongoing Humanitarian Crisis in the Muslim World",

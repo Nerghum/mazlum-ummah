@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BadgeDollarSign, BarChart3, BookOpenText, FileText, HelpCircle, Home, Images, LayoutDashboard, LogOut, Megaphone, Menu, MessageSquareText, Moon, Settings, Sun, Users, X } from 'lucide-react';
+import { BadgeDollarSign, BarChart3, BookOpenText, FileText, HelpCircle, Home, Images, LayoutDashboard, LogOut, Mail, Megaphone, Menu, MessageSquareText, Moon, Settings, Sun, Users, X } from 'lucide-react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../store/authSlice.js';
@@ -21,6 +21,7 @@ const navItems = [
   { to: '/faqs', label: 'FAQs', icon: HelpCircle, permission: 'faq:read' },
   { to: '/analytics', label: 'Analytics', icon: BarChart3, permission: 'analytics:read' },
   { to: '/users', label: 'Users', icon: Users, permission: 'user:read' },
+  { to: '/subscribers', label: 'Subscribers', icon: Mail },
   { to: '/settings', label: 'Settings', icon: Settings, permission: 'settings:read' }
 ];
 

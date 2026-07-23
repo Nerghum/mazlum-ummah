@@ -26,6 +26,7 @@ import { SettingsPage } from '../pages/SettingsPage.jsx';
 import { SocialPostEditorPage } from '../pages/SocialPostEditorPage.jsx';
 import { SocialPostListPage } from '../pages/SocialPostListPage.jsx';
 import { UsersPage } from '../pages/UsersPage.jsx';
+import { SubscriberListPage } from '../pages/SubscriberListPage.jsx';
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
@@ -65,7 +66,8 @@ export const router = createBrowserRouter([
           { path: '/faqs', element: <FaqManagementPage /> },
           { path: '/analytics', element: <AnalyticsPage /> },
           { path: '/users', element: <UsersPage /> },
-          { path: '/settings', element: <SettingsPage /> }
+          { path: '/settings', element: <SettingsPage /> },
+          { path: '/subscribers', element: <SubscriberListPage /> }
         ]
       }
     ]

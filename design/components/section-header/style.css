@@ -1,0 +1,70 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: UbuntuSans, Bornomala, sans-serif;
+}
+
+*,
+::before,
+::after {
+  box-sizing: inherit;
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 0px) {
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.section-header__title {
+  margin: 0px;
+  font-weight: 400;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+@media (min-width: 0px) {
+  .section-header__title {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .section-header__title {
+    font-size: 1.0625rem;
+  }
+}
+
+@media (min-width: 0px) {
+  .section-header__title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.4;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-header__title {
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 1.41667;
+  }
+}
+
+.section-header__comma {
+  font-family: Bornomala, sans-serif;
+}

@@ -1,11 +1,48 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useTranslations } from "@/hooks/use-translations";
+import { useLocale } from "@/hooks/use-locale";
 import "./style.css";
 
 const Newsletter = () => {
   const t = useTranslations();
+  const { locale } = useLocale();
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/v1/public/newsletter/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, language: locale, source: "footer" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus("success");
+        setMessage(t("newsletter.success"));
+        setEmail("");
+      } else {
+        setStatus("error");
+        setMessage(data.message || t("newsletter.error"));
+      }
+    } catch (error) {
+      setStatus("error");
+      setMessage(t("newsletter.error"));
+    }
+    
+    setTimeout(() => {
+      setStatus("idle");
+      setMessage("");
+    }, 5000);
+  };
+
   return (
     <section className="css-budoz5">
       <section className="css-vyws4f">
@@ -74,7 +111,7 @@ const Newsletter = () => {
           </svg>
         </div>
         <h2 className="css-1eezop7">{t("newsletter.heading")}</h2>
-        <form autoComplete="off">
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="css-3tnzis">
             <div className="css-1sb3j1f">
               <div className="css-1jke4yk">
@@ -83,55 +120,54 @@ const Newsletter = () => {
                     <input
                       aria-invalid="false"
                       autoComplete="off"
-                      id=":r28:"
                       name="email"
                       placeholder={t("newsletter.emailPlaceholder")}
-                      type="text"
+                      type="email"
+                      required
                       className="css-aj4f8c"
-                      defaultValue=""
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      disabled={status === "loading"}
                     />
                   </div>
                 </div>
               </div>
             </div>
-            <button className="css-599ba7" tabIndex={0} type="submit" id=":r29:">
-              <span className="css-oz8hdd">{t("newsletter.subscribe")}</span>
+            <button className="css-599ba7" tabIndex={0} type="submit" disabled={status === "loading"}>
+              <span className="css-oz8hdd">{status === "loading" ? "..." : t("newsletter.subscribe")}</span>
             </button>
           </div>
-          <div className="css-vqmixd">
-            <div
-              className="css-qj0a7w"
-              role="alert"
-              style={
-                {
-                  ["--Paper-shadow" as any]: "var(--shadows-0)",
-                  ["--Paper-overlay" as any]: "var(--overlays-0)",
-                } as React.CSSProperties
-              }
-            >
-              <div className="css-1zei4i">
-                <svg
-                  className="css-ia94qz"
-                  focusable="false"
-                  aria-hidden="true"
-                  viewBox="0 0 28 28"
-                  width="28"
-                  height="28"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13 13L13.0547 12.9733C13.2256 12.8879 13.4175 12.8533 13.6076 12.8735C13.7976 12.8938 13.9779 12.9681 14.127 13.0876C14.2761 13.2071 14.3879 13.3669 14.449 13.548C14.5102 13.7291 14.5181 13.9239 14.472 14.1093L13.528 17.8907C13.4815 18.0762 13.4893 18.2712 13.5503 18.4525C13.6113 18.6338 13.723 18.7938 13.8722 18.9136C14.0214 19.0333 14.2018 19.1077 14.392 19.128C14.5822 19.1483 14.7742 19.1136 14.9453 19.028L15 19M26 14C26 15.5759 25.6896 17.1363 25.0866 18.5922C24.4835 20.0481 23.5996 21.371 22.4853 22.4853C21.371 23.5996 20.0481 24.4835 18.5922 25.0866C17.1363 25.6896 15.5759 26 14 26C12.4241 26 10.8637 25.6896 9.4078 25.0866C7.95189 24.4835 6.62902 23.5996 5.51472 22.4853C4.40042 21.371 3.5165 20.0481 2.91345 18.5922C2.31039 17.1363 2 15.5759 2 14C2 10.8174 3.26428 7.76516 5.51472 5.51472C7.76516 3.26428 10.8174 2 14 2C17.1826 2 20.2348 3.26428 22.4853 5.51472C24.7357 7.76516 26 10.8174 26 14ZM14 9H14.0107V9.01067H14V9Z"
-                    stroke="currentColor"
-                    strokeWidth="2.125"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  ></path>
-                </svg>
+          {status !== "idle" && message && (
+            <div className="css-vqmixd mt-4">
+              <div
+                className="css-qj0a7w"
+                role="alert"
+                style={{
+                  padding: "12px 16px",
+                  borderRadius: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  backgroundColor: status === "success" ? "#E8F5E9" : "#FFEBEE",
+                  color: status === "success" ? "#2E7D32" : "#C62828",
+                  border: `1px solid ${status === "success" ? "#A5D6A7" : "#EF9A9A"}`
+                }}
+              >
+                <div className="css-1zei4i">
+                  {status === "success" ? (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                  ) : (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                  )}
+                </div>
+                <div className="css-127h8j3 text-sm font-medium">{message}</div>
               </div>
-              <div className="css-127h8j3"></div>
             </div>
-          </div>
+          )}
         </form>
       </section>
     </section>

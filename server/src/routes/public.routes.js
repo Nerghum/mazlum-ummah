@@ -12,11 +12,14 @@ import HomepageSection from '../models/HomepageSection.js';
 import * as FaqController from '../controllers/faq.controller.js';
 import * as MenuController from '../controllers/menu.controller.js';
 import { submitContactForm } from '../controllers/contact.controller.js';
+import { subscribe as subscribeNewsletter } from '../controllers/newsletter.controller.js';
 import Comment from '../models/Comment.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { normalizeHomepageSection } from '../utils/homepageTitle.js';
 
 const router = Router();
+
+router.post('/newsletter/subscribe', subscribeNewsletter);
 
 function visiblePublishedFilter(extra = {}) {
   const now = new Date();
