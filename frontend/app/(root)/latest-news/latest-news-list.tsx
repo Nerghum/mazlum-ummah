@@ -7,7 +7,6 @@ import { ArrowRight } from "lucide-react";
 import { useLocale } from "@/hooks/use-locale";
 import { useTranslations } from "@/hooks/use-translations";
 import { CardItem, CmsCategory, categoryName, fetchCategories, fetchNews, postToCard } from "@/lib/cms";
-import { SkeletonNewsCategoryPage } from "@/components/skeleton-loader";
 import "../news/[slug]/components/style.css";
 import "../todays-news/style.css";
 
@@ -75,6 +74,10 @@ const LatestNewsSection = ({ section }: { section: CategorySection }) => {
   );
 };
 
+import PageBanner from "@/components/page-banner";
+import PageBannerSkeleton from "@/components/page-banner/page-banner.skeleton";
+import NewsListSkeleton from "../news/[slug]/components/newslist.skeleton";
+
 const LatestNewsList = () => {
   const { locale } = useLocale();
   const t = useTranslations();
@@ -112,19 +115,33 @@ const LatestNewsList = () => {
   }, [locale]);
 
   if (loading) {
-    return <SkeletonNewsCategoryPage />;
+    return (
+      <>
+        <PageBannerSkeleton hasTitle={true} />
+        <section className="MuiBox-root css-1vhc6zl todays-news-page">
+          <NewsListSkeleton />
+        </section>
+      </>
+    );
   }
 
   return (
-    <section className="MuiBox-root css-1vhc6zl todays-news-page">
-      {sections.length ? (
-        sections.map((section) => (
-          <LatestNewsSection key={section.category._id || section.category.slug} section={section} />
-        ))
-      ) : (
-        <p className="todays-news-empty">{t("common.noData") || "No news found."}</p>
-      )}
-    </section>
+    <>
+      <PageBanner
+        title={t("news.latestNews") || "Latest News"}
+        subtitle={t("news.latestSubtitle") || "All the latest updates"}
+        adPosition="latest_news_page_banner"
+      />
+      <section className="MuiBox-root css-1vhc6zl todays-news-page">
+        {sections.length ? (
+          sections.map((section) => (
+            <LatestNewsSection key={section.category._id || section.category.slug} section={section} />
+          ))
+        ) : (
+          <p className="todays-news-empty">{t("common.noData") || "No news found."}</p>
+        )}
+      </section>
+    </>
   );
 };
 

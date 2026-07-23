@@ -1,10 +1,11 @@
-import { SkeletonDetailPage, SkeletonPageBanner } from "@/components/skeleton-loader";
+import PageBannerSkeleton from "@/components/page-banner/page-banner.skeleton";
+import NewsDetailsSkeleton from "./components/news-details.skeleton";
 
 export default function Loading() {
   return (
     <>
-      <SkeletonPageBanner />
-      <SkeletonDetailPage />
+      <PageBannerSkeleton hasTitle={false} />
+      <NewsDetailsSkeleton />
     </>
   );
 }

@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Wrapper from "@/components/wrapper";
 import AdBanner from "@/components/ad-banner";
-import { SkeletonBreakingNews } from "@/components/skeleton-loader";
 import { useTranslations } from "@/hooks/use-translations";
 import { CardItem, fetchNews, postToCard } from "@/lib/cms";
 import { useLocale } from "@/hooks/use-locale";
@@ -33,7 +32,7 @@ const BreakingNews = ({ items }: { items?: CardItem[] }) => {
   const newsItems = (items || dynamicItems).map((item) => ({ href: item.href, img: item.src, alt: item.alt, title: item.title }));
 
   if (isLoading) {
-    return <SkeletonBreakingNews />;
+    return null;
   }
 
   return (

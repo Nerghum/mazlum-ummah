@@ -1,4 +1,6 @@
 "use client";
+import GalleryGridSkeleton from "./gallery-grid.skeleton";
+
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
@@ -8,7 +10,6 @@ import Lightbox from "@/components/lightbox";
 import VideoCard from "./video-card";
 import VideoModal from "@/components/video-modal";
 import { useTranslations } from "@/hooks/use-translations";
-import { SkeletonGalleryGrid } from "@/components/skeleton-loader";
 import "@/components/gallery-modal.css";
 import "./gallery-grid.css";
 
@@ -47,7 +48,7 @@ const GalleryGrid = ({ items, selectedType, loading = false }: GalleryGridProps)
   return (
     <>
       {loading ? (
-        <SkeletonGalleryGrid />
+        <GalleryGridSkeleton />
       ) : pageItems.length > 0 ? (
         <div className="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-17vctqv">
           {pageItems.map((item, index) => (

@@ -5,7 +5,6 @@ import Image from "next/image";
 import "./style.css";
 import AdSlot from "@/components/ad-slot";
 import CopyShortlinkButton from "@/components/copy-shortlink-button";
-import { SkeletonDetailPage } from "@/components/skeleton-loader";
 import { useTranslations } from "@/hooks/use-translations";
 import { CardItem } from "@/lib/cms";
 
@@ -15,7 +14,7 @@ const BlogDetails = ({ slug, initialCard, initialRelated }: { slug: string; init
   const [related, setRelated] = useState<CardItem[]>(initialRelated || []);
 
   if (card === undefined) {
-    return <SkeletonDetailPage />;
+    return null;
   }
 
   if (!card) {

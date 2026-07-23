@@ -1,4 +1,6 @@
 "use client";
+import GallerySectionSkeleton from "./gallery-section.skeleton";
+
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -8,7 +10,6 @@ import { GalleryItem } from "@/data/gallery-data";
 import SectionHeader from "@/components/section-header";
 import SectionFooter from "@/components/section-footer";
 import Lightbox from "@/components/lightbox";
-import { SkeletonGalleryGrid } from "@/components/skeleton-loader";
 import { useTranslations } from "@/hooks/use-translations";
 import "@/components/gallery-modal.css";
 import "./style.css";
@@ -38,7 +39,7 @@ const GallerySection = ({
     <section className="gallery-section">
       <SectionHeader title={title} />
       {loading ? (
-        <SkeletonGalleryGrid count={4} />
+        <GallerySectionSkeleton />
       ) : items.length > 0 ? (
         <div className="gallery-section__grid">
           {items.map((item, index) => (

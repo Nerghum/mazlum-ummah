@@ -13,15 +13,16 @@
 }
 
 .compact {
-  min-height: 360px;
-  padding-top: 2rem;
-  padding-bottom: 0;
+  min-height: 250px;
+  padding-top: calc(1rem + var(--layout-header-mobile-height, 64px));
+  padding-bottom: 1rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 1024px) {
   .compact {
-    padding-top: 6rem;
-    padding-bottom: 4rem;
+    padding-top: calc(1.5rem + var(--layout-header-desktop-height, 80px));
+    padding-bottom: 1.5rem;
+    min-height: 275px;
   }
 }
 

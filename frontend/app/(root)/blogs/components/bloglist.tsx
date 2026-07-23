@@ -3,11 +3,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import PageBanner from "@/components/page-banner";
+import PageBannerSkeleton from "@/components/page-banner/page-banner.skeleton";
+import BlogListSkeleton from "./bloglist.skeleton";
 import AdBanner from "@/components/ad-banner";
 import { ChevronRight } from "lucide-react";
 import "./style.css";
 import Link from "next/link";
-import { SkeletonBlogListPage } from "@/components/skeleton-loader";
 import { useTranslations } from "@/hooks/use-translations";
 import { CardItem, fetchBlogs, fetchBlogsByCategory, postToCard } from "@/lib/cms";
 import { useLocale } from "@/hooks/use-locale";
@@ -62,7 +63,12 @@ const BlogList = ({ categorySlug }: { categorySlug?: string }) => {
   const featuredBlog = allCards[0];
 
   if (isLoading) {
-    return <SkeletonBlogListPage />;
+    return (
+      <>
+        <PageBannerSkeleton hasTitle={true} />
+        <BlogListSkeleton />
+      </>
+    );
   }
 
   const renderCard = (card: (typeof allCards)[number], idx: number) => {

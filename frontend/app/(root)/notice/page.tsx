@@ -1,4 +1,6 @@
 "use client";
+import NoContentSkeleton from "@/components/no-content/no-content.skeleton";
+
 
 import React, { useEffect, useState } from "react";
 import PageBanner from "@/components/page-banner";
@@ -6,7 +8,6 @@ import NoContent from "@/components/no-content";
 import { useTranslations } from "@/hooks/use-translations";
 import { useLocale } from "@/hooks/use-locale";
 import { CmsNotice, fetchNotices, formatCmsDate, text } from "@/lib/cms";
-import { SkeletonNoticeList } from "@/components/skeleton-loader";
 import "./style.css";
 
 const NoticePage = () => {
@@ -28,7 +29,7 @@ const NoticePage = () => {
           <span className="notice-page__eyebrow">{t("notice.title")}</span>
           <h2 className="notice-page__heading">{t("notice.subtitle")}</h2>
         </div>
-        {loading && <SkeletonNoticeList />}
+        {loading && <NoContentSkeleton />}
         {!loading && !notices.length && <NoContent title={t("notice.emptyTitle")} description={t("notice.emptyDescription")} />}
         <div className="notice-list">
           {notices.map((notice) => (

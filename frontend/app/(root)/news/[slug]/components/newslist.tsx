@@ -8,10 +8,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./style.css";
 import Link from "next/link";
 import AdSlot from "@/components/ad-slot";
-import { SkeletonNewsCategoryPage } from "@/components/skeleton-loader";
 import { useTranslations } from "@/hooks/use-translations";
 import { CardItem, fetchNews, postToCard } from "@/lib/cms";
 import { useLocale } from "@/hooks/use-locale";
+import PageBanner from "@/components/page-banner";
+import PageBannerSkeleton from "@/components/page-banner/page-banner.skeleton";
+import NewsListSkeleton from "./newslist.skeleton";
 
 const FEATURED_COUNT = 2;
 const ITEMS_PER_PAGE = 12;
@@ -130,11 +132,27 @@ const NewsList = ({ slug }: { slug: string }) => {
   const handleNext = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
 
   if (isLoading) {
-    return <SkeletonNewsCategoryPage />;
+    return (
+      <>
+        <PageBannerSkeleton hasTitle={true} />
+        <NewsListSkeleton />
+      </>
+    );
   }
 
+  const titleKey = `news.${slug === "sudan" ? "sudanTitle" : slug === "gaza" ? "gazaTitle" : slug === "middle-east" ? "middleEastTitle" : slug === "africa" ? "africaTitle" : "defaultTitle"}`;
+  const subtitleKey = `news.${slug === "sudan" ? "sudanSubtitle" : slug === "gaza" ? "gazaSubtitle" : slug === "middle-east" ? "middleEastSubtitle" : slug === "africa" ? "africaSubtitle" : "defaultSubtitle"}`;
+
   return (
-    <section className="MuiBox-root css-1vhc6zl">
+    <>
+      <PageBanner 
+        title={t(titleKey)} 
+        subtitle={t(subtitleKey)} 
+        categoryType="news" 
+        categorySlug={slug} 
+        adPosition={`news_category_${slug}_banner`}
+      />
+      <section className="MuiBox-root css-1vhc6zl">
       <div className="MuiBox-root css-fm5laq">
         <h1 className="news-section-title">
           {t(
@@ -421,6 +439,7 @@ const NewsList = ({ slug }: { slug: string }) => {
         </ul>
       </nav>
     </section>
+    </>
   );
 };
 

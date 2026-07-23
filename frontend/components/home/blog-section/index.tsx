@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "@/components/section-header";
 import SectionFooter from "@/components/section-footer";
-import { SkeletonBlogSection } from "@/components/skeleton-loader";
 import { useTranslations } from "@/hooks/use-translations";
 import { CardItem, fetchBlogs, fetchBlogsByCategory, postToCard } from "@/lib/cms";
 import { useLocale } from "@/hooks/use-locale";
@@ -42,7 +41,7 @@ const BlogSection = ({
   const cards = (items || dynamicCards).slice(0, 3);
 
   if (isLoading) {
-    return <SkeletonBlogSection />;
+    return null;
   }
 
   return (

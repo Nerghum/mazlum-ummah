@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import PageBanner from "@/components/page-banner";
 import GallerySidebar from "../components/gallery-sidebar";
+import GallerySidebarSkeleton from "../components/gallery-sidebar.skeleton";
 import GalleryGrid from "../components/gallery-grid";
 import { GalleryItem } from "@/data/gallery-data";
 import { CmsCategory, categoryName, fetchCategories, fetchNews, mediaUrl, text } from "@/lib/cms";
@@ -159,17 +160,21 @@ const GalleryPage = () => {
       <section className="MuiBox-root css-1evun54">
         <div className="gallery-layout-container">
           <div className="gallery-sidebar-wrapper">
-            <GallerySidebar
-              selectedType={selectedType}
-              onTypeChange={handleTypeChange}
-              categories={categories}
-              selectedCategory={selectedCategory}
-              onCategoryChange={handleCategoryChange}
-              years={availableYears}
-              selectedYear={selectedYear}
-              onYearChange={handleYearChange}
-              showYearTabs={showYearTabs}
-            />
+            {loading ? (
+              <GallerySidebarSkeleton />
+            ) : (
+              <GallerySidebar
+                selectedType={selectedType}
+                onTypeChange={handleTypeChange}
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onCategoryChange={handleCategoryChange}
+                years={availableYears}
+                selectedYear={selectedYear}
+                onYearChange={handleYearChange}
+                showYearTabs={showYearTabs}
+              />
+            )}
           </div>
           <div className="gallery-grid-wrapper">
             <GalleryGrid items={filteredItems} selectedType={selectedType} loading={loading} />

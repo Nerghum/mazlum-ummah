@@ -6,7 +6,6 @@ import "./style.css";
 import MostRead from "./most-read";
 import AdSlot from "@/components/ad-slot";
 import CopyShortlinkButton from "@/components/copy-shortlink-button";
-import { SkeletonDetailPage } from "@/components/skeleton-loader";
 import { useTranslations } from "@/hooks/use-translations";
 import { CardItem } from "@/lib/cms";
 
@@ -17,7 +16,7 @@ const NewsDetails = ({ slug, categorySlug, initialCard }: { slug: string; catego
   const printPreviewRef = useRef<HTMLDivElement>(null);
 
   if (card === undefined) {
-    return <SkeletonDetailPage />;
+    return null;
   }
 
   if (!card) {

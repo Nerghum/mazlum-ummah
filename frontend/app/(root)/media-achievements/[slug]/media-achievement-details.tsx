@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { useLocale } from "@/hooks/use-locale";
 import { fetchMediaAchievementBySlug, fetchMediaAchievements, mediaUrl, text, type CmsMediaAchievement } from "@/lib/cms";
 import { youtubeEmbedUrl, youtubeThumbnailUrl } from "@/lib/video";
-import { SkeletonFeatureListContent } from "@/components/skeleton-loader";
 import "../style.css";
 
 type DetailsProps = {
@@ -29,7 +28,7 @@ const MediaAchievementDetails = ({ slug }: DetailsProps) => {
   }, [slug]);
 
   if (item === undefined) {
-    return <SkeletonFeatureListContent />;
+    return null;
   }
 
   if (!item) {

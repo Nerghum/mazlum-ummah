@@ -6,7 +6,6 @@ import Link from "next/link";
 import SectionHeader from "@/components/section-header";
 import SectionFooter from "@/components/section-footer";
 import Wrapper from "@/components/wrapper";
-import { SkeletonHomeNewsSection } from "@/components/skeleton-loader";
 import { useTranslations } from "@/hooks/use-translations";
 import { CardItem, fetchNews, postToCard } from "@/lib/cms";
 import { useLocale } from "@/hooks/use-locale";
@@ -47,7 +46,7 @@ const NewsSection = ({
   const cards = (items || dynamicCards).slice(0, 5);
 
   if (isLoading) {
-    return <SkeletonHomeNewsSection />;
+    return null;
   }
   
   if (cards.length === 0) {

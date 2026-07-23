@@ -1,15 +1,17 @@
 "use client";
+import MediaAchievementPageSkeleton from "./page.skeleton";
+
 
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import PageBanner from "@/components/page-banner";
+import PageBannerSkeleton from "@/components/page-banner/page-banner.skeleton";
 import { ChevronRight } from "lucide-react";
 import "./style.css";
 import { useTranslations } from "@/hooks/use-translations";
 import { fetchMediaAchievements, formatCmsDate, mediaUrl, text, type CmsMediaAchievement } from "@/lib/cms";
 import { useLocale } from "@/hooks/use-locale";
 import { youtubeThumbnailUrl } from "@/lib/video";
-import { SkeletonFeatureListContent } from "@/components/skeleton-loader";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -114,23 +116,23 @@ const Achievements = () => {
     );
   };
 
+  if (loading) {
+    return (
+      <>
+        <PageBannerSkeleton hasTitle={true} />
+        <MediaAchievementPageSkeleton />
+      </>
+    );
+  }
+
   return (
     <>
       <PageBanner
         adPosition="media_achievements_page_banner"
-        title={
-          <>
-            {t("media.creatingHeadlines")}
-            <br />
-            {t("media.buildingDigitalAge")}
-          </>
-        }
+        title={t("media.pageTitle")}
         subtitle={t("media.description")}
       />
 
-      {loading ? (
-        <SkeletonFeatureListContent />
-      ) : (
       <main className="container main-content">
         {featuredCard && <section className="feature-card">
           <div className="feature-grid">
@@ -243,7 +245,6 @@ const Achievements = () => {
           </ul>
         </nav>
       </main>
-      )}
     </>
   );
 };
