@@ -18,7 +18,8 @@ const Newsletter = () => {
 
     setStatus("loading");
     try {
-      const res = await fetch("/api/v1/public/newsletter/subscribe", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api/v1";
+      const res = await fetch(`${apiUrl}/public/newsletter/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, language: locale, source: "footer" }),
