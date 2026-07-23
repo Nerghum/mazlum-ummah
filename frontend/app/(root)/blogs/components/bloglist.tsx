@@ -124,8 +124,8 @@ const BlogList = ({ categorySlug }: { categorySlug?: string }) => {
     <>
       <PageBanner
         bgImage={featuredBlog?.src || "/logo.png"}
-        title={featuredBlog?.title || ""}
-        subtitle={featuredBlog?.description || ""}
+        title={t("blog.tagline1") + " " + t("blog.tagline2")}
+        subtitle={t("blog.description")}
         adPosition="blogs_page_banner"
       />
 
