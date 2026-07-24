@@ -123,6 +123,10 @@
   text-decoration: underline;
 }
 
+.social-card__content {
+  margin-bottom: -5px;
+}
+
 /* Image Grid */
 .social-card__grid {
   display: grid;

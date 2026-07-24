@@ -2,7 +2,7 @@ export const FRONTEND_URL = (import.meta.env.VITE_FRONTEND_URL || 'http://localh
 
 export function newsPreviewUrl(news) {
   if (!news?.slug) return '';
-  const categorySlug = news.mainCategory?.slug || 'general';
+  const categorySlug = news.mainCategory?.slug || news.categories?.[0]?.slug || 'general';
   return `${FRONTEND_URL}/news/${categorySlug}/${news.slug}`;
 }
 
