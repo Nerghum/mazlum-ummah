@@ -61,21 +61,31 @@ function SocialLinks({
 }) {
   return (
     <div className={styles["footer-social-row"]}>
-      <a className={styles["footer-social-link"]} href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-        <FacebookIcon />
-      </a>
-      <a className={styles["footer-social-link"]} href={youtubeUrl} target="_blank" rel="noopener noreferrer" aria-label="Youtube">
-        <YoutubeIcon />
-      </a>
-      <a className={styles["footer-social-link"]} href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <InstagramIcon />
-      </a>
-      <a className={styles["footer-social-link"]} href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-        <LinkedinIcon />
-      </a>
-      <a className={styles["footer-social-link"]} href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-        <WhatsappIcon />
-      </a>
+      {facebookUrl && (
+        <a className={styles["footer-social-link"]} href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <FacebookIcon />
+        </a>
+      )}
+      {youtubeUrl && (
+        <a className={styles["footer-social-link"]} href={youtubeUrl} target="_blank" rel="noopener noreferrer" aria-label="Youtube">
+          <YoutubeIcon />
+        </a>
+      )}
+      {instagramUrl && (
+        <a className={styles["footer-social-link"]} href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <InstagramIcon />
+        </a>
+      )}
+      {linkedinUrl && (
+        <a className={styles["footer-social-link"]} href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <LinkedinIcon />
+        </a>
+      )}
+      {whatsappUrl && (
+        <a className={styles["footer-social-link"]} href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <WhatsappIcon />
+        </a>
+      )}
     </div>
   );
 }
@@ -84,11 +94,11 @@ const Footer = () => {
   const t = useTranslations();
   const { locale } = useLocale();
   const settings = useSiteSettings();
-  const facebookUrl = settings["site.facebookUrl"] || "https://www.facebook.com/mazlumummah";
-  const youtubeUrl = settings["site.youtubeUrl"] || "https://www.youtube.com/@MazlumUmmah";
-  const instagramUrl = settings["site.instagramUrl"] || "https://www.instagram.com/mazlumummah";
-  const linkedinUrl = settings["site.linkedinUrl"] || "https://www.linkedin.com/company/mazlum-ummah";
-  const whatsappUrl = settings["site.whatsappUrl"] || "https://wa.me/1234567890";
+  const facebookUrl = settings["site.facebookUrl"] || "";
+  const youtubeUrl = settings["site.youtubeUrl"] || "";
+  const instagramUrl = settings["site.instagramUrl"] || "";
+  const linkedinUrl = settings["site.linkedinUrl"] || "";
+  const whatsappUrl = settings["site.whatsappUrl"] || "";
   const externalLinksHref = "https://mazlum-ummah.vercel.app/external-links-policy";
   const isBn = locale === "bn";
 
@@ -131,11 +141,11 @@ const Footer = () => {
                 <Link className={styles["footer-link"]} href="/contact">
                   {t("footer.contact")}
                 </Link>
-                <a className={styles["footer-link"]} href={facebookUrl} target="_blank" rel="noopener noreferrer">Facebook</a>
-                <a className={styles["footer-link"]} href={youtubeUrl} target="_blank" rel="noopener noreferrer">Youtube</a>
-                <a className={styles["footer-link"]} href={instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>
-                <a className={styles["footer-link"]} href={linkedinUrl} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a className={styles["footer-link"]} href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                {facebookUrl && <a className={styles["footer-link"]} href={facebookUrl} target="_blank" rel="noopener noreferrer">Facebook</a>}
+                {youtubeUrl && <a className={styles["footer-link"]} href={youtubeUrl} target="_blank" rel="noopener noreferrer">Youtube</a>}
+                {instagramUrl && <a className={styles["footer-link"]} href={instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>}
+                {linkedinUrl && <a className={styles["footer-link"]} href={linkedinUrl} target="_blank" rel="noopener noreferrer">LinkedIn</a>}
+                {whatsappUrl && <a className={styles["footer-link"]} href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>}
               </div>
             </div>
             <div className={styles["footer-link-column"]}>

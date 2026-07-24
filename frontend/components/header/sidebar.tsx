@@ -488,52 +488,62 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
               <div className="sidebar-social-section">
                 <p className="sidebar-follow-label">{t("sidebar.followUs")}</p>
                 <div className="sidebar-social-icons">
-                  <a
-                    href={settings["site.facebookUrl"] || "https://www.facebook.com/mazlumummah"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Facebook"
-                  >
-                    <Image src={facebookIcon} alt="Facebook" width={32} height={32} />
-                  </a>
-                  <a
-                    href={settings["site.instagramUrl"] || "https://www.instagram.com/mazlumummah"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Instagram"
-                  >
-                    <Image src={instagramIcon} alt="Instagram" width={32} height={32} />
-                  </a>
-                  <a
-                    href={settings["site.whatsappUrl"] || "https://wa.me/1234567890"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="WhatsApp"
-                  >
-                    <Image src={whatsappIcon} alt="WhatsApp" width={32} height={32} />
-                  </a>
-                  <a
-                    href={settings["site.youtubeUrl"] || "https://www.youtube.com/@MazlumUmmah"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="YouTube"
-                  >
-                    <svg viewBox="0 0 24 24" width={32} height={32} fill="#FF0000">
-                      <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
-                    </svg>
-                  </a>
-                  <a
-                    href={settings["site.linkedinUrl"] || "https://www.linkedin.com/company/mazlum-ummah"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="LinkedIn"
-                  >
-                    <svg viewBox="0 0 24 24" width={32} height={32} fill="#0A66C2">
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                      <rect width="4" height="12" x="2" y="9" />
-                      <circle cx="4" cy="4" r="2" />
-                    </svg>
-                  </a>
+                  {settings["site.facebookUrl"] && (
+                    <a
+                      href={settings["site.facebookUrl"]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Facebook"
+                    >
+                      <Image src={facebookIcon} alt="Facebook" width={32} height={32} />
+                    </a>
+                  )}
+                  {settings["site.instagramUrl"] && (
+                    <a
+                      href={settings["site.instagramUrl"]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Instagram"
+                    >
+                      <Image src={instagramIcon} alt="Instagram" width={32} height={32} />
+                    </a>
+                  )}
+                  {settings["site.whatsappUrl"] && (
+                    <a
+                      href={settings["site.whatsappUrl"]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="WhatsApp"
+                    >
+                      <Image src={whatsappIcon} alt="WhatsApp" width={32} height={32} />
+                    </a>
+                  )}
+                  {settings["site.youtubeUrl"] && (
+                    <a
+                      href={settings["site.youtubeUrl"]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="YouTube"
+                    >
+                      <svg viewBox="0 0 24 24" width={32} height={32} fill="#FF0000">
+                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385-8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                      </svg>
+                    </a>
+                  )}
+                  {settings["site.linkedinUrl"] && (
+                    <a
+                      href={settings["site.linkedinUrl"]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn"
+                    >
+                      <svg viewBox="0 0 24 24" width={32} height={32} fill="#0A66C2">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                        <rect width="4" height="12" x="2" y="9" />
+                        <circle cx="4" cy="4" r="2" />
+                      </svg>
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
